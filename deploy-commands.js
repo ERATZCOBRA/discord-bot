@@ -29,6 +29,13 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
     );
 
     console.log('✅ Successfully registered all application (/) commands.');
+
+    // Fetch and log registered commands to verify
+    const registeredCommands = await rest.get(
+      Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID)
+    );
+    console.log('Registered commands:', registeredCommands.map(cmd => cmd.name));
+
   } catch (error) {
     console.error('❌ Failed to register commands:', error);
   }
