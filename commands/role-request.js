@@ -30,7 +30,7 @@ module.exports = {
         .setDescription('Role to ping for review')
         .setRequired(true))
     .setDMPermission(false)
-    .setDefaultMemberPermissions(0n), // Hide from all by default
+    .setDefaultMemberPermissions(null), // Hide from all by default
 
   async execute(interaction) {
     // ✅ Role check for visibility and access
