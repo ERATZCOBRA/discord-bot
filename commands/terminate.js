@@ -74,12 +74,12 @@ module.exports = {
       return interaction.followUp({ content: '❌ Termination log channel not found.', ephemeral: true });
     }
 
-    const blueLine = '<:BlueLine:1371728240128819250>'.repeat(24);
+    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
 
     const embed = new EmbedBuilder()
-      .setTitle('ㅤㅤㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Termination Notice  <:FBI:1371728059182485524>ㅤㅤㅤㅤㅤㅤ')
+      .setTitle('ㅤㅤㅤㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Termination Notice  <:FBISeal:1372972550782451874>ㅤㅤㅤㅤㅤㅤ')
       .setDescription(
-        `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with a termination-related punishment. If you feel this decision is unjust, you may open an IA Ticket in <#1371903459145809980> with valid proof.\n\n` +
+        `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with a termination-related punishment. If you feel this decision is unjust, you may open an IA Ticket in <#1191435324593811486> with valid proof.\n\n` +
         `> **Punishment:** ${typeOfPunishment}\n` +
         `> **Reason:** ${reason}\n` +
         `> **Proof:** ${proof}\n` +

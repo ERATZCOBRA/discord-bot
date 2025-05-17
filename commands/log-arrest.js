@@ -10,7 +10,7 @@ const HEAVY_UNICODE_LINE_REPEAT = 40;
 const UNICODE_LINE = '━'.repeat(HEAVY_UNICODE_LINE_REPEAT);
 
 // Custom FBI emoji (don't wrap in backticks or quotes when writing directly to Discord text)
-const FBI_EMOJI = '<:FBI:1371728059182485524>';
+const FBI_EMOJI = '<:FBISeal:1372972550782451874>';
 
 module.exports = {
   data: new SlashCommandBuilder()

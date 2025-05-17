@@ -8,7 +8,7 @@ const {
   ComponentType
 } = require('discord.js');
 
-const BLUE_LINE = '<:BlueLine:1371728240128819250>'.repeat(24);
+const BLUE_LINE = '<:BlueLine:1372978644770750577>'.repeat(24);
 
 const MENTION_ROLE_IDS = process.env.MENTION_ROLE_IDS?.split(',').map(id => id.trim()) || [];
 const COMMAND_ACCESS_ROLE_ID = process.env.COMMAND_ACCESS_ROLE_ID;
@@ -54,7 +54,7 @@ module.exports = {
     });
 
     const embed = new EmbedBuilder()
-      .setTitle('ㅤㅤㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Callsign Request  <:FBI:1371728059182485524>ㅤㅤㅤㅤㅤㅤ')
+      .setTitle('ㅤㅤㅤㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Callsign Request  <:FBISeal:1372972550782451874>ㅤㅤㅤㅤㅤㅤ')
       .setDescription(
         `${BLUE_LINE}\nA new callsign has been requested.\n\n` +
         `**Requested by:** ${requester}\n` +

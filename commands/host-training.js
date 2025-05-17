@@ -1,21 +1,18 @@
 require('dotenv').config();
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
-const BLUE_LINE_EMOJI = '<:BlueLine:1371728240128819250>';
-const BLUE_LINE_REPEAT = 24;  // Configurable number of repeats for the blue line
+const BLUE_LINE_EMOJI = '<:BlueLine:1372978644770750577>';  // Updated emoji ID
+const BLUE_LINE_REPEAT = 24;
 
-// Role IDs from env (configure accordingly)
+// Role IDs from env
 const ENTRY_ROLE_ID = process.env.ENTRY_TRAINING_ROLE_ID;
 const SNIPER_ROLE_ID = process.env.SNIPER_TRAINING_ROLE_ID;
 const GRAPPLER_ROLE_ID = process.env.GRAPPLER_TRAINING_ROLE_ID;
 
-// Role IDs allowed to run command by training type
-// Format: comma separated role IDs for each type in env
 const ENTRY_ACCESS_ROLES = process.env.ENTRY_TRAINING_ACCESS_ROLE_IDS?.split(',') || [];
 const SNIPER_ACCESS_ROLES = process.env.SNIPER_TRAINING_ACCESS_ROLE_IDS?.split(',') || [];
 const GRAPPLER_ACCESS_ROLES = process.env.GRAPPLER_ACCESS_ROLE_IDS?.split(',') || [];
 
-// Target announce channel ID from env
 const TRAINING_CHANNEL_ID = process.env.TRAINING_ANNOUNCE_CHANNEL_ID;
 
 const TRAINING_TYPE_CHOICES = [
@@ -69,13 +66,11 @@ module.exports = {
     const member = interaction.member;
     const user = interaction.user;
 
-    // Get options
     const type = interaction.options.getString('type');
     const coHost = interaction.options.getUser('co-host');
     const uniform = interaction.options.getString('uniform');
     const gun = interaction.options.getString('gun');
 
-    // Role access check based on training type
     let allowedRoles = [];
     if (type === 'entry') allowedRoles = ENTRY_ACCESS_ROLES;
     else if (type === 'sniper') allowedRoles = SNIPER_ACCESS_ROLES;
@@ -89,7 +84,6 @@ module.exports = {
       });
     }
 
-    // Determine ping role by training type
     let pingRoleId;
     let trainingLabel;
 
@@ -112,12 +106,10 @@ module.exports = {
     }
 
     const blueLine = BLUE_LINE_EMOJI.repeat(BLUE_LINE_REPEAT);
-
-    // Format co-host text
     const coHostText = coHost ? coHost.toString() : 'None';
 
     const embed = new EmbedBuilder()
-      .setTitle(`ㅤㅤㅤ<:FBI:1371728059182485524>  FBI Training  <:FBI:1371728059182485524>ㅤㅤㅤ`)
+      .setTitle(`ㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Training  <:FBISeal:1372972550782451874>ㅤㅤㅤ`)
       .setDescription(
         `${blueLine}\n\n` +
         `FBI **${trainingLabel}** will be beginning in a few minutes. Join up!\n\n` +
@@ -139,7 +131,6 @@ module.exports = {
         });
       }
 
-      // Fetch the target channel from the guild by ID
       const targetChannel = guild.channels.cache.get(TRAINING_CHANNEL_ID);
       if (!targetChannel || !targetChannel.isTextBased()) {
         return interaction.reply({
@@ -153,10 +144,8 @@ module.exports = {
         embeds: [embed],
       });
 
-      // React with ✅ automatically
       await message.react('✅');
 
-      // Create a thread from this message
       await message.startThread({
         name: `${trainingLabel} - Hosted by ${user.username}`,
         autoArchiveDuration: 60,

@@ -76,12 +76,12 @@ module.exports = {
       return interaction.followUp({ content: '❌ Infraction log channel not found.', ephemeral: true });
     }
 
-    const blueLine = '<:BlueLine:1371728240128819250>'.repeat(24);
+    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
 
     const embed = new EmbedBuilder()
-      .setTitle('ㅤㅤㅤㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Infraction  <:FBI:1371728059182485524>ㅤㅤㅤㅤㅤㅤㅤ')
+      .setTitle('ㅤㅤㅤㅤㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Infraction  <:FBISeal:1372972550782451874>ㅤㅤㅤㅤㅤㅤㅤ')
       .setDescription(
-        `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with disciplinary actions against you. If you feel like this Infraction is false, please open an IA Ticket in <#1371903459145809980> with valid proof.\n\n` +
+        `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with disciplinary actions against you. If you feel like this Infraction is false, please open an IA Ticket in <#1191435324593811486> with valid proof.\n\n` +
         `> **Punishment:** ${typeOfPunishment}\n` +
         `> **Reason:** ${reason}\n` +
         `> **Proof:** ${proof}\n` +
