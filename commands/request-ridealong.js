@@ -8,7 +8,7 @@ const {
   ComponentType,
 } = require('discord.js');
 
-const BLUE_LINE = '<:BlueLine:1371728240128819250>'.repeat(24);
+const BLUE_LINE = '<:BlueLine:1372978644770750577>'.repeat(24);
 
 // Environment variables
 const PING_ROLE_ID = process.env.RIDEALONG_ROLE_ID;
@@ -58,7 +58,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setTitle('ㅤㅤㅤ<:FBI:1371728059182485524>  FBI Ride Along Request  <:FBI:1371728059182485524>ㅤㅤㅤ')
+      .setTitle('ㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Ride Along Request  <:FBI:1371728059182485524>ㅤㅤㅤ')
       .setDescription(
         `${BLUE_LINE}\n\n` +
         'I respectfully request approval for a ride-along opportunity to accompany an experienced agent during active duty. This experience will provide valuable insight and hands-on learning to enhance my skills as a probationary agent.\n\n' +

@@ -13,8 +13,8 @@ module.exports = {
       option.setName('rank')
         .setDescription('Rank of the resigned agent')
         .setRequired(true))
-    .setDefaultMemberPermissions(0n) // 👈 Hide command unless user has a role with permission
-    .setDMPermission(false),         // 👈 Disable in DMs
+    .setDefaultMemberPermissions(0n)
+    .setDMPermission(false),
 
   async execute(interaction, client) {
     const allowedRoleIds = process.env.RESIGN_ALLOWED_ROLES.split(',');
@@ -32,7 +32,7 @@ module.exports = {
     const requester = interaction.user;
     const time = new Date().toLocaleString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const blueLineEmojiId = '1371728240128819250';
+    const blueLineEmojiId = '1372978644770750577';
     const blueLine = `<:BlueLine:${blueLineEmojiId}>`.repeat(24);
 
     await interaction.reply({ content: '✅ Resignation has been logged.', ephemeral: true });
@@ -41,7 +41,7 @@ module.exports = {
     const channel = await client.channels.fetch(channelId);
 
     const embed = {
-      title: 'ㅤㅤㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Resignation  <:FBI:1371728059182485524>ㅤㅤㅤㅤㅤㅤ',
+      title: 'ㅤㅤㅤㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Resignation  <:FBISeal:1372972550782451874>ㅤㅤㅤㅤㅤㅤ',
       description:
         `${blueLine}\n` +
         `The Federal Bureau of Investigation acknowledges the resignation of <@${resignedAgent.id}>, holding the rank of ${rank}. Effective immediately. The decision to step down was received and processed in accordance with internal protocol. We thank them for their service and wish them the best in their future endeavors.`,

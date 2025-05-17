@@ -95,7 +95,7 @@ module.exports = {
       proofValue = `[Attached File](${proofAttachment.url})`;
     }
 
-    const fbiEmoji = '<:FBI:1371728059182485524>';
+    const fbiEmoji = ':FBISeal:1372972550782451874';
     const lineSeparator = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
 
     const author = interaction.user.username;
