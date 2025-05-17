@@ -44,7 +44,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('request-training')
     .setDescription('Submit a formal FBI training request')
-    .setDefaultMemberPermissions(0n)
+    .setDefaultMemberPermissions(null)
     .setDMPermission(false)
     .addStringOption(option =>
       option.setName('type')
