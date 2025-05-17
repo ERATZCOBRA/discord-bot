@@ -29,7 +29,7 @@ module.exports = {
       option.setName('ping')
         .setDescription('Role to ping for review')
         .setRequired(true))
-    .setDMPermission(false)
+    .setDMPermission(false),
 
   async execute(interaction) {
     // ✅ Role check for visibility and access
