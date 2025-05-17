@@ -13,7 +13,6 @@ module.exports = {
       option.setName('rank')
         .setDescription('Rank of the resigned agent')
         .setRequired(true))
-    .setDefaultMemberPermissions(null) // 👈 Hide command unless user has a role with permission
     .setDMPermission(false),         // 👈 Disable in DMs
 
   async execute(interaction, client) {
