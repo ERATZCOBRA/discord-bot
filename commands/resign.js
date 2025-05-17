@@ -13,7 +13,7 @@ module.exports = {
       option.setName('rank')
         .setDescription('Rank of the resigned agent')
         .setRequired(true))
-    .setDMPermission(false),         // 👈 Disable in DMs
+    .setDMPermission(false),
 
   async execute(interaction, client) {
     const allowedRoleIds = process.env.RESIGN_ALLOWED_ROLES.split(',');
