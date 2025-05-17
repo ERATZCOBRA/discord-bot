@@ -20,7 +20,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('ridealong-request')
     .setDescription('Submit a formal FBI ride-along request')
-    .setDefaultMemberPermissions(0n)
+    .setDefaultMemberPermissions(null)
     .setDMPermission(false)
     .addStringOption(option =>
       option.setName('available-time')

@@ -18,7 +18,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('embed')
     .setDescription('Create and send a custom embed to a selected channel.')
-    .setDefaultMemberPermissions(0n)
+    .setDefaultMemberPermissions(null)
     .setDMPermission(false)
     .addChannelOption(option =>
       option
