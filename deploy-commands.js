@@ -2,6 +2,8 @@ const { REST, Routes } = require('discord.js');
 const fs = require('fs');
 require('dotenv').config();
 
+console.log('Loaded token:', process.env.TOKEN ? '[TOKEN LOADED]' : '[NO TOKEN]');
+
 const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
