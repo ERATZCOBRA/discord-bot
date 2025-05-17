@@ -12,7 +12,7 @@ const {
   ButtonStyle,
 } = require('discord.js');
 
-const AUTHORIZED_ROLE_ID = process.env.EMBED_COMMAND_ACCESS_ROLE_ID;
+const AUTHORIZED_ROLE_IDS = process.env.EMBED_COMMAND_ACCESS_ROLE_IDS.split(',');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -32,7 +32,7 @@ module.exports = {
     const member = interaction.member;
 
     // Permission check
-    if (!AUTHORIZED_ROLE_ID || !member.roles.cache.has(AUTHORIZED_ROLE_ID)) {
+    if (!AUTHORIZED_ROLE_IDS.some(id => member.roles.cache.has(id))) {
       return interaction.reply({
         content: '❌ You do not have permission to use this command.',
         ephemeral: true,
@@ -42,7 +42,7 @@ module.exports = {
     // Get target channel
     const targetChannel = interaction.options?.getChannel('channel') || previousData?.channel;
 
-    // Prepare modal with pre-filled values if editing
+    // Prepare modal
     const modal = new ModalBuilder()
       .setCustomId('embedModal')
       .setTitle('Embed Setup');
@@ -82,13 +82,7 @@ module.exports = {
       new ActionRowBuilder().addComponents(footerInput)
     );
 
-    // Show modal
-    if (interaction.isModalSubmit && interaction.customId === 'embedModal') {
-      // This is a modal submit interaction, so respond to it immediately
-      await interaction.showModal(modal);
-    } else {
-      await interaction.showModal(modal);
-    }
+    await interaction.showModal(modal);
 
     // Wait for modal submit
     let modalSubmit;
@@ -124,7 +118,7 @@ module.exports = {
       });
     }
 
-    // Buttons: Confirm, Edit, Cancel
+    // Buttons
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('confirm_embed_send')
@@ -142,7 +136,6 @@ module.exports = {
         .setStyle(ButtonStyle.Danger)
     );
 
-    // Reply with preview + buttons (ephemeral)
     await modalSubmit.reply({
       content: `Preview your embed below. Send to <#${targetChannel.id}>?`,
       embeds: [embed],
@@ -150,7 +143,6 @@ module.exports = {
       ephemeral: true,
     });
 
-    // Await button interaction
     try {
       const buttonInteraction = await modalSubmit.channel.awaitMessageComponent({
         filter: i => i.user.id === interaction.user.id,
@@ -172,14 +164,12 @@ module.exports = {
           embeds: [],
         });
       } else if (buttonInteraction.customId === 'edit_embed') {
-        // Close current button message before reopening modal for edit
         await buttonInteraction.update({
           content: '✏️ Opening modal to edit your embed...',
           components: [],
           embeds: [],
         });
 
-        // Re-run execute with previous input data for edit
         return this.execute(interaction, {
           channel: targetChannel,
           title: embedTitle,
