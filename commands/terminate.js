@@ -79,7 +79,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle('ㅤㅤㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Termination Notice  <:FBI:1371728059182485524>ㅤㅤㅤㅤㅤㅤ')
       .setDescription(
-        `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with a termination-related punishment. If you feel this decision is unjust, you may open an IA Ticket in <#1371903459145809980> with valid proof.\n\n` +
+        `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with a termination-related punishment. If you feel this decision is unjust, you may open an IA Ticket in <#1191435324593811486> with valid proof.\n\n` +
         `> **Punishment:** ${typeOfPunishment}\n` +
         `> **Reason:** ${reason}\n` +
         `> **Proof:** ${proof}\n` +
