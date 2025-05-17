@@ -2,6 +2,8 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
+const express = require('express'); // Added express
+
 dotenv.config();
 
 const client = new Client({
@@ -44,7 +46,18 @@ for (const file of eventFiles) {
   }
 }
 
-// Bot is ready, but no need to register commands here (since deploy-commands.js does it)
+// Express server to keep Render happy and bot alive
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Bot is running!');
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Express server listening on port ${PORT}`);
+});
+
 client.once('ready', async () => {
   console.log('✅ Bot is ready!');
 });
