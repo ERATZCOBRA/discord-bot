@@ -39,7 +39,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('host-training')
     .setDescription('Announce an upcoming FBI training')
-    .setDefaultMemberPermissions(0n)
+    .setDefaultMemberPermissions(null)
     .setDMPermission(false)
     .addStringOption(opt =>
       opt.setName('type')
