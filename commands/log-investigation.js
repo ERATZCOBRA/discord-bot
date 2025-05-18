@@ -30,11 +30,6 @@ module.exports = {
     .addStringOption(option =>
       option.setName('scene')
         .setDescription('Type of scene')
-        .addChoices(
-          { name: 'Robbery', value: 'Robbery' },
-          { name: 'Hostage', value: 'Hostage' },
-          { name: 'Kidnapping', value: 'Kidnapping' }
-        )
         .setRequired(true))
     .addStringOption(option =>
       option.setName('location')
