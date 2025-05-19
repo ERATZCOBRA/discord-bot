@@ -5,10 +5,6 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('host-mass')
     .setDescription('Announce a mass shift operation')
-    .addUserOption(option =>
-      option.setName('co-host')
-        .setDescription('User co-hosting the mass')
-        .setRequired(true))
     .addStringOption(option =>
       option.setName('location')
         .setDescription('Location of the mass shift')
@@ -24,10 +20,13 @@ module.exports = {
         .addChoices(
           { name: 'Yes', value: 'Yes' },
           { name: 'No', value: 'No' }
-        )),
+        ))
+    .addUserOption(option =>
+      option.setName('co-host')
+        .setDescription('User co-hosting the mass')
+        .setRequired(false)),
 
   async execute(interaction, client) {
-    // Validate required env variables
     const allowedRolesEnv = process.env.HOST_MASS_ALLOWED_ROLE_ID;
     const mentionRoleId = process.env.HOST_MASS_MENTION_ROLE_ID;
     const announceChannelId = process.env.HOST_MASS_ANNOUNCE_CHANNEL_ID;
@@ -37,14 +36,12 @@ module.exports = {
       return interaction.reply({ content: '🚫 Server configuration error. Please contact an admin.', ephemeral: true });
     }
 
-    // Prepare allowed roles array
     const allowedRoleIds = allowedRolesEnv.split(',').map(id => id.trim()).filter(Boolean);
 
     if (allowedRoleIds.length === 0) {
       return interaction.reply({ content: '🚫 Server configuration error. Please contact an admin.', ephemeral: true });
     }
 
-    // Permission check
     const hasPermission = interaction.member.roles.cache.some(role => allowedRoleIds.includes(role.id));
     if (!hasPermission) {
       return interaction.reply({
@@ -53,24 +50,20 @@ module.exports = {
       });
     }
 
-    // Get command options
     const coHost = interaction.options.getUser('co-host');
+    const coHostDisplay = coHost ? `${coHost}` : 'N/A';
     const location = interaction.options.getString('location');
     const reason = interaction.options.getString('reason');
     const promotional = interaction.options.getString('promotional');
 
-    // Author info
     const author = interaction.user.username;
     const authorAvatarURL = interaction.user.displayAvatarURL({ dynamic: true, size: 1024 });
 
-    // Date/time formatting
     const dayOfWeek = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    // Blue line emoji repeated 24 times
     const blueLine = '<:BlueLine:1371728240128819250>'.repeat(24);
 
-    // Role mention and channel fetch
     const mentionRole = `<@&${mentionRoleId}>`;
     const channel = await client.channels.fetch(announceChannelId).catch(() => null);
 
@@ -79,17 +72,15 @@ module.exports = {
       return interaction.reply({ content: '❌ Announcement channel not found. Please contact an admin.', ephemeral: true });
     }
 
-    // Reply to command to acknowledge
     await interaction.reply({ content: '✅ Mass hosting announcement posted.', ephemeral: true });
 
-    // Construct embed
     const embed = {
       title: 'ㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Mass Shift  <:FBI:1371728059182485524>ㅤㅤㅤㅤ',
       description:
         `${blueLine}\n` +
         `The Federal Bureau of Investigation is currently hosting a mass shift operation to enhance coordination and readiness across all active units. Agents are required to report for duty as scheduled and carry out their assignments with full professionalism. This initiative is part of ongoing efforts to maintain peak operational efficiency within the Bureau.\n\n` +
         `> **Hosted by:** ${interaction.user}\n` +
-        `> **Co-host:** ${coHost}\n` +
+        `> **Co-host:** ${coHostDisplay}\n` +
         `> **Location:** ${location}\n` +
         `> **Reason:** ${reason}\n` +
         `> **Promotional:** ${promotional}`,
@@ -100,13 +91,11 @@ module.exports = {
       },
     };
 
-    // Send the embed to the announcement channel with role mention
     const message = await channel.send({
       content: mentionRole,
       embeds: [embed],
     });
 
-    // React with checkmark emoji
     try {
       await message.react('✅');
     } catch (error) {
