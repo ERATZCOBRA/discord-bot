@@ -10,7 +10,7 @@ const ROLE_ID_2 = process.env.MEDAL_REVIEW_ROLE_ID_2;
 // Styling constants
 const FBI_EMOJI = '<:FBI:1371728059182485524>';
 const BLUELINE_EMOJI = '<:BlueLine:1371728240128819250>'; // Replace with your actual emoji ID
-const BLUELINE_REPEAT = 24; // Direct repeat count config
+const BLUELINE_REPEAT = 8;
 const BLUELINE = BLUELINE_EMOJI.repeat(BLUELINE_REPEAT);
 
 module.exports = {
@@ -54,7 +54,6 @@ module.exports = {
   async execute(interaction) {
     const medal = interaction.options.getString('medal');
     const reason = interaction.options.getString('reason');
-
     const proof1 = interaction.options.getAttachment('proof1');
     const proof2 = interaction.options.getAttachment('proof2');
     const proof3 = interaction.options.getAttachment('proof3');
@@ -64,7 +63,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor(0x0000ff)
       .setDescription([
-        `**${FBI_EMOJI} 𝗥𝗢𝗟𝗘 𝗥𝗘𝗤𝗨𝗘𝗦𝗧**`.padStart(30 + 15).padEnd(60),
+        `**${FBI_EMOJI} 𝗠𝗘𝗗𝗔𝗟 𝗥𝗘𝗤𝗨𝗘𝗦𝗧 ${FBI_EMOJI}**`.padStart(28 + 17).padEnd(65),
         `${BLUELINE}`,
         `I would like to formally request consideration for the awarding of medals in recognition of my contributions and service within the Federal Bureau of Investigation. I believe my efforts and achievements meet the criteria outlined for medal eligibility. I kindly ask for your review and approval of this request.`,
         ``,
