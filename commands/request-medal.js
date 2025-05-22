@@ -9,9 +9,12 @@ const ROLE_ID_2 = process.env.MEDAL_REVIEW_ROLE_ID_2;
 
 // Styling constants
 const FBI_EMOJI = '<:FBI:1371728059182485524>';
-const BLUELINE_EMOJI = '<:BlueLine:1371728240128819250>'; // Replace with your actual emoji ID
-const BLUELINE_REPEAT = 8;
+const BLUELINE_EMOJI = '<:BlueLine:1371728240128819250>'; // Your actual emoji ID
+const BLUELINE_REPEAT = 24;
 const BLUELINE = BLUELINE_EMOJI.repeat(BLUELINE_REPEAT);
+
+// Invisible padding for center alignment
+const INVISIBLE = '\u200b'.repeat(15);
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -63,7 +66,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor(0x0000ff)
       .setDescription([
-        `**${FBI_EMOJI} 𝗠𝗘𝗗𝗔𝗟 𝗥𝗘𝗤𝗨𝗘𝗦𝗧 ${FBI_EMOJI}**`.padStart(28 + 17).padEnd(65),
+        `${INVISIBLE}**${FBI_EMOJI} 𝗠𝗘𝗗𝗔𝗟 𝗥𝗘𝗤𝗨𝗘𝗦𝗧 ${FBI_EMOJI}**`,
         `${BLUELINE}`,
         `I would like to formally request consideration for the awarding of medals in recognition of my contributions and service within the Federal Bureau of Investigation. I believe my efforts and achievements meet the criteria outlined for medal eligibility. I kindly ask for your review and approval of this request.`,
         ``,
@@ -73,7 +76,7 @@ module.exports = {
         `**Proof:** ${proofAttachments.length > 0 ? 'Attached' : 'N/A'}`
       ].join('\n'))
       .setFooter({
-        text: `${interaction.member.nickname || interaction.user.username}`,
+        text: `${interaction.member?.nickname || interaction.user.username}`,
         iconURL: interaction.user.displayAvatarURL()
       })
       .setTimestamp();
