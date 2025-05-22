@@ -3,13 +3,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const ARREST_CHANNEL_ID = process.env.ARREST_LOG_CHANNEL_ID;
+const ARREST_ANNOUNCEMENT_CHANNEL_ID = process.env.ARREST_ANNOUNCEMENT_CHANNEL_ID;
 const ALLOWED_ROLE_ID = process.env.ARREST_LOG_ROLE_ID;
 
-// Configurable connected line
 const HEAVY_UNICODE_LINE_REPEAT = 40;
 const UNICODE_LINE = '━'.repeat(HEAVY_UNICODE_LINE_REPEAT);
 
-// Custom FBI emoji (don't wrap in backticks or quotes when writing directly to Discord text)
 const FBI_EMOJI = '<:FBI:1371728059182485524>';
 
 module.exports = {
@@ -50,7 +49,7 @@ module.exports = {
     const mugshot = interaction.options.getAttachment('mugshot');
 
     const embed = {
-      color:0x0000ff,
+      color: 0x0000ff,
       description: [
         `**${FBI_EMOJI} 𝗙𝗕𝗜 𝗔𝗥𝗥𝗘𝗦𝗧 𝗟𝗢𝗚 **`.padStart(30 + 15).padEnd(60),
         `${UNICODE_LINE}`,
@@ -76,7 +75,19 @@ module.exports = {
       return interaction.reply({ content: '⚠️ Log channel not found or invalid.', ephemeral: true });
     }
 
-    await logChannel.send({ embeds: [embed] });
-    await interaction.reply({ content: '✅ Arrest logged successfully.', ephemeral: true });
+    const message = await logChannel.send({ embeds: [embed] });
+
+    // Try to crosspost if ARREST_ANNOUNCEMENT_CHANNEL_ID is set and matches a news channel
+    try {
+      const announcementChannel = await interaction.client.channels.fetch(ARREST_ANNOUNCEMENT_CHANNEL_ID);
+      if (announcementChannel && announcementChannel.type === 15) { // 15 = GuildAnnouncement
+        const announcementMessage = await announcementChannel.send({ embeds: [embed] });
+        await announcementMessage.crosspost();
+      }
+    } catch (error) {
+      console.error('❌ Failed to send or crosspost to announcement channel:', error);
+    }
+
+    await interaction.reply({ content: '✅ Arrest logged and published successfully.', ephemeral: true });
   }
 };
