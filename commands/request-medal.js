@@ -8,8 +8,8 @@ const ROLE_ID_1 = process.env.MEDAL_REVIEW_ROLE_ID_1;
 const ROLE_ID_2 = process.env.MEDAL_REVIEW_ROLE_ID_2;
 
 // Styling constants
-const FBI_EMOJI = '<:FBI:1371728059182485524>';
-const BLUELINE_EMOJI = '<:BlueLine:1371728240128819250>'; // Your actual emoji ID
+const FBI_EMOJI = '<:FBI_Badge:1192100309137375305>';
+const BLUELINE_EMOJI = '<:b_line:1294034867230736425>'; // Your actual emoji ID
 const BLUELINE_REPEAT = 24;
 const BLUELINE = BLUELINE_EMOJI.repeat(BLUELINE_REPEAT);
 
