@@ -8,7 +8,7 @@ const {
   ComponentType,
 } = require('discord.js');
 
-const BLUE_LINE = '<:BlueLine:1294034867230736425>'.repeat(24);
+const BLUE_LINE = '<:BlueLine:1372978644770750577>'.repeat(24);
 
 // Environment variables
 const PING_ROLE_ID = process.env.RIDEALONG_ROLE_ID;
