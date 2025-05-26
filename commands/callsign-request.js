@@ -8,7 +8,7 @@ const {
   ComponentType
 } = require('discord.js');
 
-const BLUE_LINE = '<:b_line:1294034867230736425>'.repeat(24);
+const BLUE_LINE = '<:BlueLine:1294034867230736425>'.repeat(24);
 
 const MENTION_ROLE_IDS = process.env.MENTION_ROLE_IDS?.split(',').map(id => id.trim()) || [];
 const COMMAND_ACCESS_ROLE_ID = process.env.COMMAND_ACCESS_ROLE_ID;
