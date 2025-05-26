@@ -8,7 +8,7 @@ const {
   ComponentType
 } = require('discord.js');
 
-const BLUE_LINE = '<:BlueLine:1371728240128819250>'.repeat(24);
+const BLUE_LINE = '<:b_line:1294034867230736425>'.repeat(24);
 
 // Updated environment keys
 const ROLE_IDS = {
@@ -92,7 +92,7 @@ module.exports = {
     });
 
     const embed = new EmbedBuilder()
-      .setTitle('ㅤㅤㅤ<:FBI:1371728059182485524>  FBI Training Request  <:FBI:1371728059182485524>ㅤㅤㅤ')
+      .setTitle('ㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Training Request  <:FBI_Badge:1192100309137375305>ㅤㅤㅤ')
       .setDescription(
         `${BLUE_LINE}\n\n` +
         `I hereby submit a formal request to participate in the upcoming training program within the Federal Bureau of Investigation. I am eager to enhance my skills and knowledge to better serve the agency's mission.\n\n` +
