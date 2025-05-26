@@ -55,10 +55,10 @@ module.exports = {
       return interaction.followUp({ content: '❌ Promotion channel not found.', ephemeral: true });
     }
 
-    const blueLine = '<:BlueLine:1371728240128819250>'.repeat(24);
+    const blueLine = '<:b_line:1294034867230736425>'.repeat(24);
 
     const embed = new EmbedBuilder()
-      .setTitle('ㅤㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Promotion  <:FBI:1371728059182485524>ㅤㅤㅤㅤㅤ')
+      .setTitle('ㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Promotion  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤㅤ')
       .setDescription(
         `${blueLine}\nCongratulations! Your dedication, discipline, and exceptional performance have not gone unnoticed. You are hereby promoted to <@&${newRank.id}>. May you continue to serve with honor and uphold the values of the Bureau.\n\nApproved by: ${approvedByRaw}`
       )
