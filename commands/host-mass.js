@@ -62,7 +62,7 @@ module.exports = {
     const dayOfWeek = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const blueLine = '<:b_line:1294034867230736425>'.repeat(24);
+    const blueLine = '<:BlueLine:1294034867230736425>'.repeat(24);
 
     const mentionRole = `<@&${mentionRoleId}>`;
     const channel = await client.channels.fetch(announceChannelId).catch(() => null);
