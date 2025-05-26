@@ -36,7 +36,7 @@ module.exports = {
     const feedback = interaction.options.getString('feedback');
 
     // Emojis kept directly in the code
-    const blueLineEmoji = '<:b_line:1294034867230736425>';
+    const blueLineEmoji = '<:BlueLine:1294034867230736425>';
     const fbiEmoji = '<:FBI_Badge:1192100309137375305>';
 
     const blueLineRepeat = 24;
