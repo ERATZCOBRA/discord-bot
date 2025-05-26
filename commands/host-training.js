@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
-const BLUE_LINE_EMOJI = '<:BlueLine:1371728240128819250>';
+const BLUE_LINE_EMOJI = '<:b_line:1294034867230736425>';
 const BLUE_LINE_REPEAT = 24;  // Configurable number of repeats for the blue line
 
 // Role IDs from env (configure accordingly)
@@ -117,7 +117,7 @@ module.exports = {
     const coHostText = coHost ? coHost.toString() : 'None';
 
     const embed = new EmbedBuilder()
-      .setTitle(`ㅤㅤㅤ<:FBI:1371728059182485524>  FBI Training  <:FBI:1371728059182485524>ㅤㅤㅤ`)
+      .setTitle(`ㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Training  <:FBI_Badge:1192100309137375305>ㅤㅤㅤ`)
       .setDescription(
         `${blueLine}\n\n` +
         `FBI **${trainingLabel}** will be beginning in a few minutes. Join up!\n\n` +
