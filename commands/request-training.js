@@ -8,7 +8,7 @@ const {
   ComponentType
 } = require('discord.js');
 
-const BLUE_LINE = '<:b_line:1294034867230736425>'.repeat(24);
+const BLUE_LINE = '<:BlueLine:1294034867230736425>'.repeat(24);
 
 // Updated environment keys
 const ROLE_IDS = {
