@@ -50,7 +50,7 @@ module.exports = {
     const reason = interaction.options.getString('reason');
     const pingRole = interaction.options.getRole('ping');
 
-    const blueLine = '<:b_line:1294034867230736425>'.repeat(24);
+    const blueLine = '<:BlueLine:1294034867230736425>'.repeat(24);
     const fbiEmoji = '<:FBI_Badge:1192100309137375305>';
     const timestamp = new Date().toLocaleString('en-GB', {
       dateStyle: 'short',
