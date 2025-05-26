@@ -4,7 +4,7 @@ const {
   EmbedBuilder
 } = require('discord.js');
 
-const BLUE_LINE = '<:BlueLine:1371728240128819250>'.repeat(24);
+const BLUE_LINE = '<:b_line:1294034867230736425>'.repeat(24);
 
 // Role access and target channel ID from .env
 const AWARD_COMMAND_ACCESS_ROLE_IDS = process.env.AWARD_COMMAND_ACCESS_ROLE_IDS?.split(',') || [];
@@ -54,7 +54,7 @@ module.exports = {
     });
 
     const embed = new EmbedBuilder()
-      .setTitle('ㅤㅤㅤ<:FBI:1371728059182485524>  FBI Awards  <:FBI:1371728059182485524>ㅤㅤㅤ')
+      .setTitle('ㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Awards  <:FBI_Badge:1192100309137375305>ㅤㅤㅤ')
       .setDescription(
         `${BLUE_LINE}\n\n` +
         `The Federal Bureau of Investigation is proud to present the **${award}** to ${agent} in recognition of their outstanding performance and dedication to duty. Their exceptional contributions have significantly supported the agency’s mission and values. We commend them for their excellence and commitment to the Bureau.\n\n` +
