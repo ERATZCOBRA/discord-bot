@@ -55,7 +55,7 @@ module.exports = {
       return interaction.followUp({ content: '❌ Promotion channel not found.', ephemeral: true });
     }
 
-    const blueLine = '<:b_line:1294034867230736425>'.repeat(24);
+    const blueLine = '<:BlueLine:1294034867230736425>'.repeat(24);
 
     const embed = new EmbedBuilder()
       .setTitle('ㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Promotion  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤㅤ')
