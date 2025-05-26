@@ -76,7 +76,7 @@ module.exports = {
       return interaction.followUp({ content: '❌ Infraction log channel not found.', ephemeral: true });
     }
 
-    const blueLine = '<:b_line:1294034867230736425>'.repeat(24);
+    const blueLine = '<:BlueLine:1294034867230736425>'.repeat(24);
 
     const embed = new EmbedBuilder()
       .setTitle('ㅤㅤㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Infraction  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤㅤㅤㅤ')
