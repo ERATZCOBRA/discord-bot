@@ -24,20 +24,36 @@ module.exports = {
     } catch (error) {
       console.error(error);
 
-      if (!interaction.replied && !interaction.deferred) {
-        await interaction.reply({
-          content: '❌ There was an error while executing this command.',
-          ephemeral: true,
-        });
-      }
-    }
+      // 🔴 Update embed with error details
+      logEmbed
+        .setTitle('❌ Command Error')
+        .setColor(0xff0000)
+        .addFields(
+          { name: 'Error', value: `\`\`\`${error.message || error}\`\`\`` }
+        );
 
-    // 🔍 Log to the configured log channel from .env
-    const logChannel = client.channels.cache.get(process.env.LOG_CHANNEL_ID);
-    if (logChannel) {
-      await logChannel.send({ embeds: [logEmbed] });
-    } else {
-      console.warn('⚠️ Logging channel not found. Check LOG_CHANNEL_ID in your .env file.');
+      if (!interaction.replied && !interaction.deferred) {
+        try {
+          await interaction.reply({
+            content: '❌ There was an error while executing this command.',
+            ephemeral: true,
+          });
+        } catch (replyError) {
+          console.error('Failed to send error reply:', replyError);
+        }
+      }
+    } finally {
+      // 📝 Log to the configured log channel from .env
+      const logChannel = client.channels.cache.get(process.env.LOG_CHANNEL_ID);
+      if (logChannel) {
+        try {
+          await logChannel.send({ embeds: [logEmbed] });
+        } catch (logError) {
+          console.error('Failed to send log embed:', logError);
+        }
+      } else {
+        console.warn('⚠️ Logging channel not found. Check LOG_CHANNEL_ID in your .env file.');
+      }
     }
   },
 };
