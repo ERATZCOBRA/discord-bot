@@ -49,7 +49,7 @@ module.exports = {
     const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const blueLine = '<:BlueLine:1371728240128819250>'.repeat(24);
+    const blueLine = '<:b_line:1294034867230736425>'.repeat(24);
 
     // Confirm to the command user
     await interaction.reply({ content: '✅ Demotion has been logged.', ephemeral: true });
@@ -59,7 +59,7 @@ module.exports = {
     const logChannel = await interaction.client.channels.fetch(logChannelId);
 
     const embed = {
-      title: 'ㅤㅤㅤ<:FBI:1371728059182485524>  FBI Demotion  <:FBI:1371728059182485524>ㅤㅤㅤ',
+      title: 'ㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Demotion  <:FBI_Badge:1192100309137375305>ㅤㅤㅤ',
       description: `\n${blueLine}\n\nAgent <@${demotedAgent.id}> has been officially demoted to the rank of <@&${newRank.id}>. This action was taken after careful evaluation of recent performance and conduct. We believe this step is necessary to uphold the standards and discipline of our organization. We expect improved performance and commitment moving forward.\n\n**Reason for demotion:** ${reason}\n\n**Approved by:** ${approvedBy}`,
       color: 0x0000ff,
       footer: {
