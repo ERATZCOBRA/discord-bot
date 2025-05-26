@@ -49,7 +49,7 @@ module.exports = {
     const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const blueLine = '<:b_line:1294034867230736425>'.repeat(24);
+    const blueLine = '<:BlueLine:1294034867230736425>'.repeat(24);
 
     // Confirm to the command user
     await interaction.reply({ content: '✅ Demotion has been logged.', ephemeral: true });
