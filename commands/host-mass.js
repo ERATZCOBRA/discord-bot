@@ -62,7 +62,7 @@ module.exports = {
     const dayOfWeek = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const blueLine = '<:BlueLine:1371728240128819250>'.repeat(24);
+    const blueLine = '<:b_line:1294034867230736425>'.repeat(24);
 
     const mentionRole = `<@&${mentionRoleId}>`;
     const channel = await client.channels.fetch(announceChannelId).catch(() => null);
@@ -75,7 +75,7 @@ module.exports = {
     await interaction.reply({ content: '✅ Mass hosting announcement posted.', ephemeral: true });
 
     const embed = {
-      title: 'ㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Mass Shift  <:FBI:1371728059182485524>ㅤㅤㅤㅤ',
+      title: 'ㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Mass Shift  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤ',
       description:
         `${blueLine}\n` +
         `The Federal Bureau of Investigation is currently hosting a mass shift operation to enhance coordination and readiness across all active units. Agents are required to report for duty as scheduled and carry out their assignments with full professionalism. This initiative is part of ongoing efforts to maintain peak operational efficiency within the Bureau.\n\n` +
