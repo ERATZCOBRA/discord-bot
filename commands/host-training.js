@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
-const BLUE_LINE_EMOJI = '<:b_line:1294034867230736425>';
+const BLUE_LINE_EMOJI = '<:BlueLine:1294034867230736425>';
 const BLUE_LINE_REPEAT = 24;  // Configurable number of repeats for the blue line
 
 // Role IDs from env (configure accordingly)
