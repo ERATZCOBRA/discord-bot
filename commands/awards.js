@@ -4,7 +4,7 @@ const {
   EmbedBuilder
 } = require('discord.js');
 
-const BLUE_LINE = '<:BlueLine:1294034867230736425>'.repeat(24);
+const BLUE_LINE = '<:BlueLine:1372978644770750577>'.repeat(24);
 
 // Role access and target channel ID from .env
 const AWARD_COMMAND_ACCESS_ROLE_IDS = process.env.AWARD_COMMAND_ACCESS_ROLE_IDS?.split(',') || [];
