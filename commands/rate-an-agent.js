@@ -35,41 +35,34 @@ module.exports = {
     const rating = interaction.options.getString('rating');
     const feedback = interaction.options.getString('feedback');
 
+    // Emojis kept directly in the code
     const blueLineEmoji = '<:BlueLine:1372978644770750577>';
     const fbiEmoji = '<:FBI_Badge:1192100309137375305>';
-    const blueLine = blueLineEmoji.repeat(24);
+
+    const blueLineRepeat = 24;
+    const blueLine = blueLineEmoji.repeat(blueLineRepeat);
 
     const requester = interaction.user;
-    const time = new Date().toLocaleString('en-GB', {
-      hour12: false,
-      dateStyle: 'short',
-      timeStyle: 'short',
-    });
+    const time = new Date().toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short' });
 
     await interaction.reply({ content: '✅ Agent rating submitted.', ephemeral: true });
 
-    let channel;
-    try {
-      channel = await client.channels.fetch(process.env.RATE_CHANNEL_ID);
-      if (!channel) throw new Error('Channel not found.');
-    } catch (err) {
-      console.error('Failed to fetch RATE_CHANNEL_ID:', err);
-      return;
-    }
+    const channelId = process.env.RATE_CHANNEL_ID;
+    const channel = await client.channels.fetch(channelId);
+    if (!channel) return;
 
     const embed = new EmbedBuilder()
-      .setTitle(`${fbiEmoji}  FBI Agent Rating  ${fbiEmoji}`)
+      .setTitle(`ㅤㅤㅤㅤㅤ${fbiEmoji}  FBI Agent Rating  ${fbiEmoji}ㅤㅤㅤㅤㅤ`)
       .setDescription(
-        `${blueLine}\n\n` +
+        `${blueLine}\n` +
         `**Agent:** <@${agent.id}>\n` +
-        `**Rating:** ${rating}\n` +
+        `**Agent's Rating:** ${rating}\n` +
         `**Feedback:** ${feedback}\n\n` +
-        `**Signed,**\n${requester}\n\n` +
-        `${blueLine}`
+        `**Signed,**\n${requester}`
       )
       .setColor(0x0000ff)
       .setFooter({
-        text: `Rated by ${requester.username} • ${time}`,
+        text: `Rated by ${requester.username} | On ${time}`,
         iconURL: requester.displayAvatarURL({ dynamic: true }),
       })
       .setTimestamp();
