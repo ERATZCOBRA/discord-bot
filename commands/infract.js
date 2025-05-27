@@ -1,9 +1,10 @@
 require('dotenv').config();
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const db = require('../infractionDatabase'); // Make sure path is correct
+const db = require('../infractionDatabase'); // Supabase-based module with async functions
 
 module.exports = {
   data: new SlashCommandBuilder()
+    // ... your existing slash command builder options ...
     .setName('infract')
     .setDescription('Issue an infraction to a user')
     .addUserOption(option =>
@@ -70,7 +71,28 @@ module.exports = {
     const authorAvatarURL = interaction.user.displayAvatarURL({ dynamic: true, size: 1024 });
     const time = new Date().toLocaleString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
+    // Confirm command received
     await interaction.reply({ content: '✅ Infraction has been logged.', ephemeral: true });
+
+    // Insert into Supabase DB (async)
+    let infractionId;
+    try {
+      infractionId = await db.addInfraction({
+        user_id: punishedAgent.id,
+        punisher_id: interaction.user.id,
+        punishment: typeOfPunishment,
+        reason,
+        proof,
+        appealable,
+        approved_by: approvedBy,
+      });
+    } catch (error) {
+      console.error('❌ Failed to insert infraction:', error);
+      return await interaction.followUp({
+        content: '❌ Failed to log infraction in the database.',
+        ephemeral: true,
+      });
+    }
 
     const channel = await client.channels.fetch(channelId);
     if (!channel) {
@@ -79,59 +101,32 @@ module.exports = {
 
     const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
 
-    // Insert into database and send embed after that
-    db.run(
-      `INSERT INTO infractions (user_id, punisher_id, punishment, reason, proof, appealable, approved_by, timestamp) 
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        punishedAgent.id,
-        interaction.user.id,
-        typeOfPunishment,
-        reason,
-        proof,
-        appealable,
-        approvedBy,
-        new Date().toISOString()
-      ],
-      async function (err) {
-        if (err) {
-          console.error(err);
-          return await interaction.followUp({
-            content: '❌ Failed to log infraction in the database.',
-            ephemeral: true,
-          });
-        }
+    const embed = new EmbedBuilder()
+      .setTitle(`ㅤㅤㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Infraction  <:FBI_Badge:1192100309137375305>ㅤㅤ\`#${infractionId}\``)
+      .setDescription(
+        `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with disciplinary actions against you. If you feel like this Infraction is false, please open an IA Ticket in <#1191435324593811486> with valid proof.\n\n` +
+        `> **Punishment:** ${typeOfPunishment}\n` +
+        `> **Reason:** ${reason}\n` +
+        `> **Proof:** ${proof}\n` +
+        `> **Appealable:** ${appealable}\n` +
+        `> **Approved by:** ${approvedBy}`
+      )
+      .setColor(0x0000ff)
+      .setFooter({
+        text: `Signed by ${author} | On ${time}`,
+        iconURL: authorAvatarURL,
+      });
 
-        const infractionId = this.lastID;
+    await channel.send({
+      content: `<@${punishedAgent.id}>`,
+      embeds: [embed],
+    });
 
-        const embed = new EmbedBuilder()
-          .setTitle(`ㅤㅤㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Infraction  <:FBI_Badge:1192100309137375305>ㅤㅤ\`#${infractionId}\``)
-          .setDescription(
-            `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with disciplinary actions against you. If you feel like this Infraction is false, please open an IA Ticket in <#1191435324593811486> with valid proof.\n\n` +
-            `> **Punishment:** ${typeOfPunishment}\n` +
-            `> **Reason:** ${reason}\n` +
-            `> **Proof:** ${proof}\n` +
-            `> **Appealable:** ${appealable}\n` +
-            `> **Approved by:** ${approvedBy}`
-          )
-          .setColor(0x0000ff)
-          .setFooter({
-            text: `Signed by ${author} | On ${time}`,
-            iconURL: authorAvatarURL,
-          });
-
-        await channel.send({
-          content: `<@${punishedAgent.id}>`,
-          embeds: [embed],
-        });
-
-        try {
-          const dmChannel = await punishedAgent.createDM();
-          await dmChannel.send({ embeds: [embed] });
-        } catch (error) {
-          console.log('Could not send DM to user:', error);
-        }
-      }
-    );
-  }
+    try {
+      const dmChannel = await punishedAgent.createDM();
+      await dmChannel.send({ embeds: [embed] });
+    } catch (error) {
+      console.log('Could not send DM to user:', error);
+    }
+  },
 };
