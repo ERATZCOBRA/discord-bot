@@ -105,7 +105,7 @@ module.exports = {
         const infractionId = this.lastID;
 
         const embed = new EmbedBuilder()
-          .setTitle(`ㅤㅤㅤㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Infraction  <:FBI:1371728059182485524> | \`#${infractionId}\``)
+          .setTitle(`ㅤㅤㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Infraction  <:FBI_Badge:1192100309137375305>ㅤㅤ\`#${infractionId}\``)
           .setDescription(
             `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with disciplinary actions against you. If you feel like this Infraction is false, please open an IA Ticket in <#1191435324593811486> with valid proof.\n\n` +
             `> **Punishment:** ${typeOfPunishment}\n` +
