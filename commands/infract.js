@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const db = require('../infractionDatabase'); // Make sure path is correct
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -63,7 +64,7 @@ module.exports = {
     const reason = interaction.options.getString('reason');
     const appealable = interaction.options.getString('appealable');
     const approvedBy = interaction.options.getString('approved-by');
-    const proof = interaction.options.getString('proof') || 'N/A.';
+    const proof = interaction.options.getString('proof') || 'N/A';
 
     const author = interaction.user.username;
     const authorAvatarURL = interaction.user.displayAvatarURL({ dynamic: true, size: 1024 });
@@ -78,32 +79,59 @@ module.exports = {
 
     const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
 
-    const embed = new EmbedBuilder()
-      .setTitle('ㅤㅤㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Infraction  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤㅤㅤㅤ')
-      .setDescription(
-        `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with disciplinary actions against you. If you feel like this Infraction is false, please open an IA Ticket in <#1191435324593811486> with valid proof.\n\n` +
-        `> **Punishment:** ${typeOfPunishment}\n` +
-        `> **Reason:** ${reason}\n` +
-        `> **Proof:** ${proof}\n` +
-        `> **Appealable:** ${appealable}\n` +
-        `> **Approved by:** ${approvedBy}`
-      )
-      .setColor(0x0000ff)
-      .setFooter({
-        text: `Signed by ${author} | On ${time}`,
-        iconURL: authorAvatarURL,
-      });
+    // Insert into database and send embed after that
+    db.run(
+      `INSERT INTO infractions (user_id, punisher_id, punishment, reason, proof, appealable, approved_by, timestamp) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        punishedAgent.id,
+        interaction.user.id,
+        typeOfPunishment,
+        reason,
+        proof,
+        appealable,
+        approvedBy,
+        new Date().toISOString()
+      ],
+      async function (err) {
+        if (err) {
+          console.error(err);
+          return await interaction.followUp({
+            content: '❌ Failed to log infraction in the database.',
+            ephemeral: true,
+          });
+        }
 
-    await channel.send({
-      content: `<@${punishedAgent.id}>`,
-      embeds: [embed],
-    });
+        const infractionId = this.lastID;
 
-    try {
-      const dmChannel = await punishedAgent.createDM();
-      await dmChannel.send({ embeds: [embed] });
-    } catch (error) {
-      console.log('Could not send DM to user:', error);
-    }
-  },
+        const embed = new EmbedBuilder()
+          .setTitle(`ㅤㅤㅤㅤㅤㅤㅤ<:FBI:1371728059182485524>  FBI Infraction  <:FBI:1371728059182485524> | \`#${infractionId}\``)
+          .setDescription(
+            `${blueLine}\nThe FBI Internal Affairs Team has completed its investigation and proceeded with disciplinary actions against you. If you feel like this Infraction is false, please open an IA Ticket in <#1191435324593811486> with valid proof.\n\n` +
+            `> **Punishment:** ${typeOfPunishment}\n` +
+            `> **Reason:** ${reason}\n` +
+            `> **Proof:** ${proof}\n` +
+            `> **Appealable:** ${appealable}\n` +
+            `> **Approved by:** ${approvedBy}`
+          )
+          .setColor(0x0000ff)
+          .setFooter({
+            text: `Signed by ${author} | On ${time}`,
+            iconURL: authorAvatarURL,
+          });
+
+        await channel.send({
+          content: `<@${punishedAgent.id}>`,
+          embeds: [embed],
+        });
+
+        try {
+          const dmChannel = await punishedAgent.createDM();
+          await dmChannel.send({ embeds: [embed] });
+        } catch (error) {
+          console.log('Could not send DM to user:', error);
+        }
+      }
+    );
+  }
 };
