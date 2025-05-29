@@ -50,7 +50,7 @@ module.exports = {
       .setDescription(
         `${blueLine}\n\n` +
         `This is an official activity check for all members of the Federal Bureau of Investigation to ensure operational readiness and engagement. Agents are required to confirm their active status by responding within the designated timeframe. Continued commitment and accountability are vital to the Bureau’s ongoing success.\n\n` +
-        `I would like to see **${expectedReactions}** reactions for this activity check. **Failure to do so will result in infractions.**`
+        `I would like to see **${expectedReactions}** reactions for this activity check.`
       )
       .setColor(0x0000ff)
       .setFooter({ text: `Signed by ${author}`, iconURL: authorAvatar });
