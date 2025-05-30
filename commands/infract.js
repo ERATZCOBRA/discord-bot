@@ -10,17 +10,18 @@ module.exports = {
         .setDescription('User to punish')
         .setRequired(true))
     .addStringOption(option =>
-      option.setName('type-of-punishment')
-        .setDescription('Type of punishment')
-        .setRequired(true)
-        .addChoices(
-          { name: 'Notice', value: 'Notice' },
-          { name: 'Warning', value: 'Warning' },
-          { name: 'Strike', value: 'Strike' },
-          { name: 'Warning + Shift Void', value: 'Warning + Shift Void' },
-          { name: 'Strike + Shift Void', value: 'Strike + Shift Void' },
-          { name: 'Suspension', value: 'Suspension' },
-        ))
+  option.setName('type-of-punishment')
+    .setDescription('Type of punishment')
+    .setRequired(true)
+    .addChoices(
+      { name: 'Notice', value: 'Notice' },
+      { name: 'Warning', value: 'Warning' },
+      { name: 'Strike', value: 'Strike' },
+      { name: 'Warning + Shift Void', value: 'Warning + Shift Void' },
+      { name: 'Strike + Shift Void', value: 'Strike + Shift Void' },
+      { name: 'Suspension', value: 'Suspension' },
+      { name: 'Retraining', value: 'Retraining' }
+    ))
     .addStringOption(option =>
       option.setName('reason')
         .setDescription('Reason for the infraction')
