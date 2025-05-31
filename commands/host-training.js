@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
-const BLUE_LINE = '▬'.repeat(40); // Unicode line for visual separation
+const BLUE_LINE = '━'.repeat(24); // Unicode line for visual separation
 
 // Role IDs from env
 const ENTRY_ROLE_ID = process.env.ENTRY_TRAINING_ROLE_ID;
