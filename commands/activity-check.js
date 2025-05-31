@@ -43,12 +43,15 @@ module.exports = {
       });
     }
 
-    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
+    // Configurable line directly in code
+    const lineChar = '━';
+    const lineLength = 24;
+    const horizontalLine = lineChar.repeat(lineLength);
 
     const embed = new EmbedBuilder()
       .setTitle('ㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Activity Check  <:FBI_Badge:1192100309137375305>')
       .setDescription(
-        `${blueLine}\n\n` +
+        `${horizontalLine}\n\n` +
         `This is an official activity check for all members of the Federal Bureau of Investigation to ensure operational readiness and engagement. Agents are required to confirm their active status by responding within the designated timeframe. Continued commitment and accountability are vital to the Bureau’s ongoing success.\n\n` +
         `I would like to see **${expectedReactions}** reactions for this activity check.`
       )
