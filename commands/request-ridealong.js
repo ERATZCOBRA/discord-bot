@@ -8,6 +8,7 @@ const {
   ComponentType,
 } = require('discord.js');
 
+// Unicode horizontal line repeated 24 times for the blue line separator
 const BLUE_LINE = '─'.repeat(24);
 
 // Environment variables
@@ -32,6 +33,7 @@ module.exports = {
     const member = interaction.member;
     const user = interaction.user;
 
+    // Check if user has permission
     if (!AUTHORIZED_ROLE_IDS.some(roleId => member.roles.cache.has(roleId))) {
       return interaction.reply({
         content: '❌ You do not have permission to use this command.',
@@ -57,6 +59,7 @@ module.exports = {
       });
     }
 
+    // Create the embed
     const embed = new EmbedBuilder()
       .setTitle('ㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Ride Along Request  <:FBI_Badge:1192100309137375305>ㅤㅤㅤ')
       .setDescription(
@@ -73,6 +76,7 @@ module.exports = {
         iconURL: user.displayAvatarURL({ dynamic: true }),
       });
 
+    // Create buttons
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('ridealong_accept')
@@ -85,6 +89,7 @@ module.exports = {
     );
 
     try {
+      // Fetch the target channel
       const targetChannel = await interaction.client.channels.fetch(TARGET_CHANNEL_ID);
 
       if (!targetChannel) {
@@ -94,12 +99,14 @@ module.exports = {
         });
       }
 
+      // Send the request message with buttons
       const message = await targetChannel.send({
         content: `<@&${PING_ROLE_ID}>`,
         embeds: [embed],
         components: [buttons],
       });
 
+      // Start a thread for discussion
       await message.startThread({
         name: `Ride Along - ${user.username}`,
         autoArchiveDuration: 60,
@@ -111,12 +118,14 @@ module.exports = {
         ephemeral: true,
       });
 
+      // Collector to handle button interactions
       const collector = message.createMessageComponentCollector({
         componentType: ComponentType.Button,
         time: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
       collector.on('collect', async i => {
+        // Check if the reviewer has a permitted role
         const reviewerHasAccess = REVIEWER_ROLE_IDS.some(roleId => i.member.roles.cache.has(roleId));
         if (!reviewerHasAccess) {
           return i.reply({
@@ -128,6 +137,7 @@ module.exports = {
         const decision = i.customId === 'ridealong_accept' ? '✅ Accepted' : '❌ Denied';
         const color = i.customId === 'ridealong_accept' ? 0x00ff00 : 0xff0000;
 
+        // Update embed status
         const updatedEmbed = EmbedBuilder.from(message.embeds[0])
           .setColor(color)
           .setDescription(
@@ -137,8 +147,10 @@ module.exports = {
             )
           );
 
+        // Edit message: embed + remove buttons
         await message.edit({ embeds: [updatedEmbed], components: [] });
         await i.reply({ content: `Ride-along request has been ${decision.toLowerCase()}.`, ephemeral: true });
+
         collector.stop();
       });
 
