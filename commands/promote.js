@@ -48,6 +48,11 @@ module.exports = {
       hour12: false,
     });
 
+    // Configurable line character and length directly in code
+    const lineChar = '━'; // Can be changed to '─', '▬', etc.
+    const lineLength = 24;
+    const horizontalLine = lineChar.repeat(lineLength);
+
     await interaction.reply({ content: '✅ Promotion has been completed.', ephemeral: true });
 
     const channel = await client.channels.fetch(channelId);
@@ -55,12 +60,10 @@ module.exports = {
       return interaction.followUp({ content: '❌ Promotion channel not found.', ephemeral: true });
     }
 
-    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
-
     const embed = new EmbedBuilder()
       .setTitle('ㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Promotion  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤㅤ')
       .setDescription(
-        `${blueLine}\nCongratulations! Your dedication, discipline, and exceptional performance have not gone unnoticed. You are hereby promoted to <@&${newRank.id}>. May you continue to serve with honor and uphold the values of the Bureau.\n\nApproved by: ${approvedByRaw}`
+        `${horizontalLine}\nCongratulations! Your dedication, discipline, and exceptional performance have not gone unnoticed. You are hereby promoted to <@&${newRank.id}>. May you continue to serve with honor and uphold the values of the Bureau.\n\nApproved by: ${approvedByRaw}`
       )
       .setColor(0x0000ff)
       .setFooter({
