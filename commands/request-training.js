@@ -8,9 +8,9 @@ const {
   ComponentType
 } = require('discord.js');
 
-const BLUE_LINE = '<:BlueLine:1372978644770750577>'.repeat(24);
+// Use Unicode horizontal line instead of emoji for the blue line
+const BLUE_LINE = '─'.repeat(24);
 
-// Updated environment keys
 const ROLE_IDS = {
   entry: {
     mention: process.env.REQ_ENTRY_ROLE_ID,
