@@ -9,9 +9,7 @@ const ROLE_ID_2 = process.env.MEDAL_REVIEW_ROLE_ID_2;
 
 // Styling constants
 const FBI_EMOJI = '<:FBI_Badge:1192100309137375305>';
-const BLUELINE_EMOJI = '<:BlueLine:1372978644770750577>'; // Your actual emoji ID
-const BLUELINE_REPEAT = 24;
-const BLUELINE = BLUELINE_EMOJI.repeat(BLUELINE_REPEAT);
+const BLUELINE = '━'.repeat(24);  // <-- Changed here
 
 // Invisible padding for center alignment
 const INVISIBLE = '\u200b'.repeat(15);
@@ -73,7 +71,7 @@ module.exports = {
         `**Username:** ${interaction.user}`,
         `**Medal:** ${medal}`,
         `**Reason:** ${reason}`,
-        `**Proof:** ${proofAttachments.length > 0 ? 'Attached' : 'N/A'}`
+        `**Proof:** ${proofAttachments.length > 0 ? 'Attached' : 'N/A'}`,
       ].join('\n'))
       .setFooter({
         text: `${interaction.member?.nickname || interaction.user.username}`,
