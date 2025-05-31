@@ -35,12 +35,9 @@ module.exports = {
     const rating = interaction.options.getString('rating');
     const feedback = interaction.options.getString('feedback');
 
-    // Emojis kept directly in the code
-    const blueLineEmoji = '<:BlueLine:1372978644770750577>';
     const fbiEmoji = '<:FBI_Badge:1192100309137375305>';
 
-    const blueLineRepeat = 24;
-    const blueLine = blueLineEmoji.repeat(blueLineRepeat);
+    const blueLine = '━'.repeat(24);
 
     const requester = interaction.user;
     const time = new Date().toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short' });
