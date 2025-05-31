@@ -75,7 +75,7 @@ module.exports = {
     }
 
     // Unicode horizontal line repeated 24 times
-    const blueLine = '─'.repeat(24);
+    const blueLine = '━'.repeat(24);
 
     const embed = new EmbedBuilder()
       .setTitle('ㅤㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Termination Notice  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤㅤㅤ')
