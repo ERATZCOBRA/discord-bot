@@ -23,14 +23,12 @@ module.exports = {
         .setRequired(true)),
 
   async execute(interaction, client) {
-    // Get allowed role IDs from .env (comma-separated string)
     const allowedRolesEnv = process.env.DEMOTE_ALLOWED_ROLES;
     if (!allowedRolesEnv) {
       return interaction.reply({ content: '🚫 Server configuration error: DEMOTE_ALLOWED_ROLES not set.', ephemeral: true });
     }
     const allowedRoleIds = allowedRolesEnv.split(',').map(id => id.trim());
 
-    // Check if the user has one of the allowed roles
     const memberRoles = interaction.member.roles.cache.map(role => role.id);
     const hasPermission = memberRoles.some(roleId => allowedRoleIds.includes(roleId));
     if (!hasPermission) {
@@ -45,16 +43,14 @@ module.exports = {
     const author = interaction.user.username;
     const authorAvatarURL = interaction.user.displayAvatarURL({ dynamic: true, size: 1024 });
 
-    // Use locale date + time separately for a cleaner footer
     const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
+    // Updated line using Unicode instead of Discord emoji
+    const blueLine = '━'.repeat(24);
 
-    // Confirm to the command user
     await interaction.reply({ content: '✅ Demotion has been logged.', ephemeral: true });
 
-    // Fetch the log channel ID from .env
     const logChannelId = process.env.DEMOTE_LOG_CHANNEL_ID;
     const logChannel = await interaction.client.channels.fetch(logChannelId);
 
@@ -77,7 +73,6 @@ module.exports = {
       console.log('❌ Error: Demotion log channel not found.');
     }
 
-    // Send a DM to the demoted agent
     try {
       const dmChannel = await demotedAgent.createDM();
       await dmChannel.send({ embeds: [embed] });
