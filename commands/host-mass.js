@@ -62,7 +62,8 @@ module.exports = {
     const dayOfWeek = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
+    // Updated line using Unicode instead of Discord emoji
+    const blueLine = '━'.repeat(24);
 
     const mentionRole = `<@&${mentionRoleId}>`;
     const channel = await client.channels.fetch(announceChannelId).catch(() => null);
