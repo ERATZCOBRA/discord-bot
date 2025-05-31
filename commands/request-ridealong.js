@@ -9,7 +9,7 @@ const {
 } = require('discord.js');
 
 // Unicode horizontal line repeated 24 times for the blue line separator
-const BLUE_LINE = '─'.repeat(24);
+const BLUE_LINE = '━'.repeat(24);
 
 // Environment variables
 const PING_ROLE_ID = process.env.RIDEALONG_ROLE_ID;
