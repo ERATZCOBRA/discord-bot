@@ -9,7 +9,7 @@ const {
 } = require('discord.js');
 
 // Use Unicode horizontal line instead of emoji for the blue line
-const BLUE_LINE = '─'.repeat(24);
+const BLUE_LINE = '━'.repeat(24);
 
 const ROLE_IDS = {
   entry: {
