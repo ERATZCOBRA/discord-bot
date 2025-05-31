@@ -51,7 +51,7 @@ module.exports = {
     const pingRole = interaction.options.getRole('ping');
 
     // Use unicode line instead of emoji for compatibility
-    const blueLine = '─'.repeat(24);
+    const blueLine = '━'.repeat(24);
     const fbiEmoji = '<:FBI_Badge:1192100309137375305>';
     const timestamp = new Date().toLocaleString('en-GB', {
       dateStyle: 'short',
