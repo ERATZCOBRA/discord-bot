@@ -74,7 +74,8 @@ module.exports = {
       return interaction.followUp({ content: '❌ Termination log channel not found.', ephemeral: true });
     }
 
-    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
+    // Unicode horizontal line repeated 24 times
+    const blueLine = '─'.repeat(24);
 
     const embed = new EmbedBuilder()
       .setTitle('ㅤㅤㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Termination Notice  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤㅤㅤ')
