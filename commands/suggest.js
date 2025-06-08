@@ -22,7 +22,6 @@ module.exports = {
   async execute(interaction, client) {
     const suggestion = interaction.options.getString('suggestion');
     const suggestChannelId = process.env.SUGGEST_CHANNEL_ID;
-    const roleMentions = process.env.SUGGEST_ROLE_IDS.split(',').map(id => `<@&${id.trim()}>`).join(' ');
 
     const channel = await client.channels.fetch(suggestChannelId);
     if (!channel) {
@@ -60,7 +59,6 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents(upButton, downButton, listButton);
 
     const message = await channel.send({
-      content: `${roleMentions}`,
       embeds: [embed],
       components: [row],
     });
