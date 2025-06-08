@@ -19,7 +19,7 @@ module.exports = {
     if (interaction.isButton()) {
       const messageId = interaction.message.id;
 
-      // Initialize if not present
+      // Ensure the vote data exists
       if (!suggestionVotes.has(messageId)) {
         suggestionVotes.set(messageId, { up: new Set(), down: new Set() });
       }
@@ -27,17 +27,20 @@ module.exports = {
       const votes = suggestionVotes.get(messageId);
       const userId = interaction.user.id;
 
+      // Defer update to extend response time to 15 minutes
+      if (!interaction.deferred && !interaction.replied) {
+        await interaction.deferUpdate(); // No visible reply, just keeps it alive
+      }
+
       if (interaction.customId === 'vote_up') {
         if (votes.down.has(userId)) votes.down.delete(userId);
         votes.up.has(userId) ? votes.up.delete(userId) : votes.up.add(userId);
-
         return updateVoteButtons(interaction, votes);
       }
 
       if (interaction.customId === 'vote_down') {
         if (votes.up.has(userId)) votes.up.delete(userId);
         votes.down.has(userId) ? votes.down.delete(userId) : votes.down.add(userId);
-
         return updateVoteButtons(interaction, votes);
       }
 
@@ -45,7 +48,7 @@ module.exports = {
         const up = Array.from(votes.up).map(id => `<@${id}>`).join('\n') || 'None';
         const down = Array.from(votes.down).map(id => `<@${id}>`).join('\n') || 'None';
 
-        return interaction.reply({
+        return interaction.followUp({
           ephemeral: true,
           embeds: [
             new EmbedBuilder()
@@ -99,17 +102,20 @@ module.exports = {
 
 // Helper to update vote buttons
 function updateVoteButtons(interaction, votes) {
-  const components = interaction.message.components[0].components.map(button => {
-    const updatedButton = ButtonBuilder.from(button);
-    if (button.customId === 'vote_up') {
-      updatedButton.setLabel(`⬆️ ${votes.up.size}`);
-    } else if (button.customId === 'vote_down') {
-      updatedButton.setLabel(`⬇️ ${votes.down.size}`);
-    }
-    return updatedButton;
-  });
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId('vote_up')
+      .setLabel(`⬆️ ${votes.up.size}`)
+      .setStyle(ButtonStyle.Success),
+    new ButtonBuilder()
+      .setCustomId('vote_down')
+      .setLabel(`⬇️ ${votes.down.size}`)
+      .setStyle(ButtonStyle.Danger),
+    new ButtonBuilder()
+      .setCustomId('vote_list')
+      .setLabel('📋 Voters')
+      .setStyle(ButtonStyle.Secondary)
+  );
 
-  return interaction.update({
-    components: [new ActionRowBuilder().addComponents(...components)],
-  });
+  return interaction.editReply({ components: [row] });
 }
