@@ -29,7 +29,7 @@ module.exports = {
       return interaction.reply({ content: '❌ Suggestion channel not found.', ephemeral: true });
     }
 
-    const centeredTitle = '‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎<:FBI_Badge:1371728059182485524> New Suggestion <:FBI_Badge:1371728059182485524>';
+    const centeredTitle = '‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎<:FBI_Badge:1192100309137375305> New Suggestion <:FBI_Badge:1192100309137375305>';
     const line = '━'.repeat(56); // Unicode full-width line
 
     const embed = new EmbedBuilder()
