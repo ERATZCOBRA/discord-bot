@@ -43,7 +43,7 @@ module.exports = {
     const proof = interaction.options.getAttachment('proof');
 
     const embed = new EmbedBuilder()
-      .setTitle('<:FBI_Badge:1371728059182485524> FBI Custom Outfit Permission <:FBI_Badge:1371728059182485524>')
+      .setTitle('<:FBI_Badge:1192100309137375305> FBI Custom Outfit Permission <:FBI_Badge:1192100309137375305>')
       .setDescription(
         `**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n` +
         `Custom outfit permission has been officially granted for the agent within the Federal Bureau of Investigation.\n\n` +
