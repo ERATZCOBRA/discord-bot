@@ -5,11 +5,10 @@ dotenv.config();
 // Env-based role and channel config
 const CHANNEL_ID = process.env.MEDAL_REQUEST_CHANNEL_ID;
 const ROLE_ID_1 = process.env.MEDAL_REVIEW_ROLE_ID_1;
-const ROLE_ID_2 = process.env.MEDAL_REVIEW_ROLE_ID_2;
 
 // Styling constants
 const FBI_EMOJI = '<:FBI_Badge:1192100309137375305>';
-const BLUELINE = '━'.repeat(24);  // <-- Changed here
+const BLUELINE = '━'.repeat(24);
 
 // Invisible padding for center alignment
 const INVISIBLE = '\u200b'.repeat(15);
@@ -85,7 +84,7 @@ module.exports = {
     }
 
     const messagePayload = {
-      content: `<@&${ROLE_ID_1}> <@&${ROLE_ID_2}>`,
+      content: `<@&${ROLE_ID_1}>`,
       embeds: [embed],
     };
 
