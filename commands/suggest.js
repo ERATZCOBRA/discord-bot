@@ -2,12 +2,7 @@ require('dotenv').config();
 const {
   SlashCommandBuilder,
   EmbedBuilder,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
 } = require('discord.js');
-
-const suggestionVotes = new Map(); // Key: messageId, Value: { up: Set(), down: Set() }
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -41,33 +36,11 @@ module.exports = {
       })
       .setTimestamp();
 
-    const upButton = new ButtonBuilder()
-      .setCustomId('vote_up')
-      .setLabel('⬆️ 0')
-      .setStyle(ButtonStyle.Success);
+    const message = await channel.send({ embeds: [embed] });
 
-    const downButton = new ButtonBuilder()
-      .setCustomId('vote_down')
-      .setLabel('⬇️ 0')
-      .setStyle(ButtonStyle.Danger);
-
-    const listButton = new ButtonBuilder()
-      .setCustomId('vote_list')
-      .setLabel('📋 Voters')
-      .setStyle(ButtonStyle.Secondary);
-
-    const row = new ActionRowBuilder().addComponents(upButton, downButton, listButton);
-
-    const message = await channel.send({
-      embeds: [embed],
-      components: [row],
-    });
-
-    // Store vote sets
-    suggestionVotes.set(message.id, {
-      up: new Set(),
-      down: new Set()
-    });
+    // Add ✅ and ❌ reactions for voting
+    await message.react('✅');
+    await message.react('❌');
 
     // Auto-create thread titled after the suggestion (trimmed)
     await message.startThread({
