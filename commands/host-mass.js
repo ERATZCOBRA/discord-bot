@@ -6,6 +6,19 @@ module.exports = {
     .setName('host-mass')
     .setDescription('Announce a mass shift operation')
     .addStringOption(option =>
+      option.setName('division')
+        .setDescription('Select the division')
+        .setRequired(true)
+        .addChoices(
+          { name: 'FBI', value: 'FBI' },
+          { name: 'CIRG', value: 'CIRG' },
+          { name: 'CID', value: 'CID' }
+        ))
+    .addUserOption(option =>
+      option.setName('co-host')
+        .setDescription('User co-hosting the mass')
+        .setRequired(true))
+    .addStringOption(option =>
       option.setName('location')
         .setDescription('Location of the mass shift')
         .setRequired(true))
@@ -20,54 +33,62 @@ module.exports = {
         .addChoices(
           { name: 'Yes', value: 'Yes' },
           { name: 'No', value: 'No' }
-        ))
-    .addUserOption(option =>
-      option.setName('co-host')
-        .setDescription('User co-hosting the mass')
-        .setRequired(false)),
+        )),
 
   async execute(interaction, client) {
-    const allowedRolesEnv = process.env.HOST_MASS_ALLOWED_ROLE_ID;
-    const mentionRoleId = process.env.HOST_MASS_MENTION_ROLE_ID;
-    const announceChannelId = process.env.HOST_MASS_ANNOUNCE_CHANNEL_ID;
+    const {
+      HOST_MASS_ALLOWED_ROLE_ID,
+      HOST_MASS_ANNOUNCE_CHANNEL_ID,
+      FBI_DIVISION_ROLE_ID,
+      CIRG_DIVISION_ROLE_ID,
+      CID_DIVISION_ROLE_ID
+    } = process.env;
 
-    if (!allowedRolesEnv || !mentionRoleId || !announceChannelId) {
+    if (!HOST_MASS_ALLOWED_ROLE_ID || !HOST_MASS_ANNOUNCE_CHANNEL_ID || !FBI_DIVISION_ROLE_ID || !CIRG_DIVISION_ROLE_ID || !CID_DIVISION_ROLE_ID) {
       console.warn('⚠️ Missing one or more required environment variables for host-mass command.');
       return interaction.reply({ content: '🚫 Server configuration error. Please contact an admin.', ephemeral: true });
     }
 
-    const allowedRoleIds = allowedRolesEnv.split(',').map(id => id.trim()).filter(Boolean);
-
-    if (allowedRoleIds.length === 0) {
-      return interaction.reply({ content: '🚫 Server configuration error. Please contact an admin.', ephemeral: true });
-    }
-
+    const allowedRoleIds = HOST_MASS_ALLOWED_ROLE_ID.split(',').map(id => id.trim()).filter(Boolean);
     const hasPermission = interaction.member.roles.cache.some(role => allowedRoleIds.includes(role.id));
     if (!hasPermission) {
       return interaction.reply({
-        content: `❌ You do not have permission to use this command. Allowed roles: ${allowedRoleIds.join(', ')}`,
+        content: `❌ You do not have permission to use this command.`,
         ephemeral: true,
       });
     }
 
+    const division = interaction.options.getString('division');
     const coHost = interaction.options.getUser('co-host');
-    const coHostDisplay = coHost ? `${coHost}` : 'N/A';
     const location = interaction.options.getString('location');
     const reason = interaction.options.getString('reason');
     const promotional = interaction.options.getString('promotional');
-
     const author = interaction.user.username;
     const authorAvatarURL = interaction.user.displayAvatarURL({ dynamic: true, size: 1024 });
 
     const dayOfWeek = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    // Updated line using Unicode instead of Discord emoji
-    const blueLine = '━'.repeat(24);
+    const divisionConfig = {
+      FBI: {
+        title: 'ㅤㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Mass Shift  <:FBISeal:1372972550782451874>ㅤㅤㅤㅤ',
+        roleId: FBI_DIVISION_ROLE_ID
+      },
+      CIRG: {
+        title: 'ㅤㅤㅤ<:FBISeal:1372972550782451874>  CIRG Mass Shift  <:FBISeal:1372972550782451874>ㅤㅤㅤ',
+        roleId: CIRG_DIVISION_ROLE_ID
+      },
+      CID: {
+        title: 'ㅤㅤㅤ<:FBISeal:1372972550782451874>  CID Mass Shift  <:FBISeal:1372972550782451874>ㅤㅤㅤ',
+        roleId: CID_DIVISION_ROLE_ID
+      }
+    };
 
-    const mentionRole = `<@&${mentionRoleId}>`;
-    const channel = await client.channels.fetch(announceChannelId).catch(() => null);
+    const divisionInfo = divisionConfig[division];
+    const mentionRole = `<@&${divisionInfo.roleId}>`;
+    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
 
+    const channel = await client.channels.fetch(HOST_MASS_ANNOUNCE_CHANNEL_ID).catch(() => null);
     if (!channel) {
       console.warn('❌ Announcement channel not found.');
       return interaction.reply({ content: '❌ Announcement channel not found. Please contact an admin.', ephemeral: true });
@@ -76,12 +97,12 @@ module.exports = {
     await interaction.reply({ content: '✅ Mass hosting announcement posted.', ephemeral: true });
 
     const embed = {
-      title: 'ㅤㅤㅤㅤ<:FBI_Badge:1192100309137375305>  FBI Mass Shift  <:FBI_Badge:1192100309137375305>ㅤㅤㅤㅤ',
+      title: divisionInfo.title,
       description:
         `${blueLine}\n` +
         `The Federal Bureau of Investigation is currently hosting a mass shift operation to enhance coordination and readiness across all active units. Agents are required to report for duty as scheduled and carry out their assignments with full professionalism. This initiative is part of ongoing efforts to maintain peak operational efficiency within the Bureau.\n\n` +
         `> **Hosted by:** ${interaction.user}\n` +
-        `> **Co-host:** ${coHostDisplay}\n` +
+        `> **Co-host:** ${coHost}\n` +
         `> **Location:** ${location}\n` +
         `> **Reason:** ${reason}\n` +
         `> **Promotional:** ${promotional}`,
