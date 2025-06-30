@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
-const BLUE_LINE = '━'.repeat(24); // Unicode line for visual separation
+const BLUE_LINE = '━'.repeat(54); // Adjusted line width for visual alignment with embed
 
 // Role IDs from env
 const ENTRY_ROLE_ID = process.env.ENTRY_TRAINING_ROLE_ID;
@@ -135,8 +135,10 @@ module.exports = {
         embeds: [embed],
       });
 
-      await message.react('✅');
+      // React with custom emoji
+      await message.react('<:checkfbi:1371103015079247882>');
 
+      // Create thread
       await message.startThread({
         name: `${trainingLabel} - Hosted by ${user.username}`,
         autoArchiveDuration: 60,
