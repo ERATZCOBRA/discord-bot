@@ -14,10 +14,6 @@ module.exports = {
           { name: 'CIRG', value: 'CIRG' },
           { name: 'CID', value: 'CID' }
         ))
-    .addUserOption(option =>
-      option.setName('co-host')
-        .setDescription('User co-hosting the mass')
-        .setRequired(true))
     .addStringOption(option =>
       option.setName('location')
         .setDescription('Location of the mass shift')
@@ -33,7 +29,11 @@ module.exports = {
         .addChoices(
           { name: 'Yes', value: 'Yes' },
           { name: 'No', value: 'No' }
-        )),
+        ))
+    .addUserOption(option =>
+      option.setName('co-host')
+        .setDescription('User co-hosting the mass (optional)')
+        .setRequired(false)),
 
   async execute(interaction, client) {
     const {
@@ -59,10 +59,12 @@ module.exports = {
     }
 
     const division = interaction.options.getString('division');
-    const coHost = interaction.options.getUser('co-host');
     const location = interaction.options.getString('location');
     const reason = interaction.options.getString('reason');
     const promotional = interaction.options.getString('promotional');
+    const coHostUser = interaction.options.getUser('co-host');
+    const coHost = coHostUser ? `${coHostUser}` : 'N/A';
+
     const author = interaction.user.username;
     const authorAvatarURL = interaction.user.displayAvatarURL({ dynamic: true, size: 1024 });
 
@@ -86,7 +88,7 @@ module.exports = {
 
     const divisionInfo = divisionConfig[division];
     const mentionRole = `<@&${divisionInfo.roleId}>`;
-    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(27); // Adjusted for better width
+    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(27);
 
     const channel = await client.channels.fetch(HOST_MASS_ANNOUNCE_CHANNEL_ID).catch(() => null);
     if (!channel) {
@@ -125,3 +127,4 @@ module.exports = {
     }
   },
 };
+
