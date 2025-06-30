@@ -86,7 +86,7 @@ module.exports = {
 
     const divisionInfo = divisionConfig[division];
     const mentionRole = `<@&${divisionInfo.roleId}>`;
-    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(24);
+    const blueLine = '<:BlueLine:1372978644770750577>'.repeat(27); // Adjusted for better width
 
     const channel = await client.channels.fetch(HOST_MASS_ANNOUNCE_CHANNEL_ID).catch(() => null);
     if (!channel) {
