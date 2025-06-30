@@ -75,11 +75,11 @@ module.exports = {
         roleId: FBI_DIVISION_ROLE_ID
       },
       CIRG: {
-        title: 'ㅤㅤㅤ<:FBISeal:1372972550782451874>  CIRG Mass Shift  <:FBISeal:1372972550782451874>ㅤㅤㅤ',
+        title: 'ㅤㅤㅤ<:CIRGFBI:1250164136969633842>  CIRG Mass Shift  <:CIRGFBI:1250164136969633842>ㅤㅤㅤ',
         roleId: CIRG_DIVISION_ROLE_ID
       },
       CID: {
-        title: 'ㅤㅤㅤ<:FBISeal:1372972550782451874>  CID Mass Shift  <:FBISeal:1372972550782451874>ㅤㅤㅤ',
+        title: 'ㅤㅤㅤ<:CIDFBI:1250164050172706868>  CID Mass Shift  <:CIDFBI:1250164050172706868>ㅤㅤㅤ',
         roleId: CID_DIVISION_ROLE_ID
       }
     };
