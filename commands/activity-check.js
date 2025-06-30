@@ -43,9 +43,9 @@ module.exports = {
       });
     }
 
-    // Configurable line directly in code
+    // Updated line width
     const lineChar = '━';
-    const lineLength = 24;
+    const lineLength = 32; // Adjusted from 24 to 32 for better width in embeds
     const horizontalLine = lineChar.repeat(lineLength);
 
     const embed = new EmbedBuilder()
