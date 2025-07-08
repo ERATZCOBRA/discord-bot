@@ -11,15 +11,21 @@ module.exports = {
     // SLASH COMMANDS
     // ================
     if (!interaction.isChatInputCommand()) return;
+    
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
 
     const timestamp = Math.floor(Date.now() / 1000);
+    let status = '✅ Success';
+    let embedColor = 0x57F287; // Green color for success
 
     try {
       await command.execute(interaction, client);
     } catch (error) {
       console.error(error);
+      status = '❌ Failed';
+      embedColor = 0xED4245; // Red color for error
+
       if (!interaction.replied && !interaction.deferred) {
         await interaction.reply({
           content: '❌ There was an error while executing this command.',
@@ -28,7 +34,7 @@ module.exports = {
       }
     }
 
-    // Log the command usage
+    // Build the log embed
     const logEmbed = new EmbedBuilder()
       .setColor(embedColor)
       .setAuthor({
@@ -69,7 +75,8 @@ module.exports = {
       });
     }
 
-    const logChannel = client.channels.cache.get(process.env.LOG_CHANNEL_ID);
+    // Send the log to the log channel
+    const logChannel = await client.channels.fetch(process.env.LOG_CHANNEL_ID).catch(() => null);
     if (logChannel) {
       await logChannel.send({ embeds: [logEmbed] });
     } else {
