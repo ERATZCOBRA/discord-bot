@@ -108,7 +108,7 @@ module.exports = {
 
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.Button,
-      time: 600_000,
+      time: 3_600_000,
       filter: i =>
         ['accept', 'deny'].includes(i.customId) &&
         BUTTON_ACCESS_ROLE_IDS.some(roleId => i.member.roles.cache.has(roleId))
