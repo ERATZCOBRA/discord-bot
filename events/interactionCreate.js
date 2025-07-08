@@ -30,11 +30,44 @@ module.exports = {
 
     // Log the command usage
     const logEmbed = new EmbedBuilder()
-      .setTitle('📘 Command Log')
-      .setDescription(`${interaction.user} used the \`/${interaction.commandName}\` command on <t:${timestamp}:F>.`)
-      .setColor(0x2b2d31)
-      .setFooter({ text: `User ID: ${interaction.user.id}` })
+      .setColor(embedColor)
+      .setAuthor({
+        name: `${interaction.user.tag}`,
+        iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
+      })
+      .setTitle(`${status} — \`/${interaction.commandName}\``)
+      .addFields(
+        {
+          name: '🧑‍💼 User',
+          value: `> ${interaction.user} \`(${interaction.user.id})\``,
+          inline: false,
+        },
+        {
+          name: '📨 Command',
+          value: `> \`/${interaction.commandName}\` in <#${interaction.channelId}>`,
+          inline: false,
+        },
+        {
+          name: '🕒 Timestamp',
+          value: `> <t:${timestamp}:F> — <t:${timestamp}:R>`,
+          inline: false,
+        }
+      )
+      .setFooter({
+        text: status === '✅ Success' ? 'Command executed successfully' : 'Command failed to execute',
+        iconURL: status === '✅ Success'
+          ? 'https://cdn-icons-png.flaticon.com/512/845/845646.png'
+          : 'https://cdn-icons-png.flaticon.com/512/463/463612.png',
+      })
       .setTimestamp();
+
+    if (status === '❌ Failed') {
+      logEmbed.addFields({
+        name: '💥 Error Details',
+        value:
+          `\`\`\`js\n${(error?.stack || error?.message || error).toString().slice(0, 950)}\n\`\`\``
+      });
+    }
 
     const logChannel = client.channels.cache.get(process.env.LOG_CHANNEL_ID);
     if (logChannel) {
