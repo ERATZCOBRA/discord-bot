@@ -6,13 +6,6 @@ module.exports = {
     .setName('host-mass')
     .setDescription('Announce a mass shift operation')
     .addStringOption(option =>
-      option.setName('division')
-        .setDescription('Select the division')
-        .setRequired(true)
-        .addChoices(
-          { name: 'FBI', value: 'FBI' } // Only FBI remains
-        ))
-    .addStringOption(option =>
       option.setName('location')
         .setDescription('Location of the mass shift')
         .setRequired(true))
@@ -54,7 +47,6 @@ module.exports = {
       });
     }
 
-    const division = interaction.options.getString('division'); // Always "FBI"
     const location = interaction.options.getString('location');
     const reason = interaction.options.getString('reason');
     const promotional = interaction.options.getString('promotional');
@@ -67,15 +59,8 @@ module.exports = {
     const dayOfWeek = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const divisionInfo = {
-      FBI: {
-        title: 'ㅤㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Mass Shift  <:FBISeal:1372972550782451874>ㅤㅤㅤㅤ',
-        roleId: FBI_DIVISION_ROLE_ID
-      }
-    };
-
-    const divisionData = divisionInfo[division];
-    const mentionRole = `<@&${divisionData.roleId}>`;
+    const title = 'ㅤㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Mass Shift  <:FBISeal:1372972550782451874>ㅤㅤㅤㅤ';
+    const mentionRole = `<@&${FBI_DIVISION_ROLE_ID}>`;
     const blueLine = '<:BlueLine:1372978644770750577>'.repeat(27);
 
     const channel = await client.channels.fetch(HOST_MASS_ANNOUNCE_CHANNEL_ID).catch(() => null);
@@ -87,7 +72,7 @@ module.exports = {
     await interaction.reply({ content: '✅ Mass hosting announcement posted.', ephemeral: true });
 
     const embed = {
-      title: divisionData.title,
+      title: title,
       description:
         `${blueLine}\n` +
         `The Federal Bureau of Investigation is currently hosting a mass shift operation to enhance coordination and readiness across all active units. Agents are required to report for duty as scheduled and carry out their assignments with full professionalism. This initiative is part of ongoing efforts to maintain peak operational efficiency within the Bureau.\n\n` +
