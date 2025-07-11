@@ -10,9 +10,7 @@ module.exports = {
         .setDescription('Select the division')
         .setRequired(true)
         .addChoices(
-          { name: 'FBI', value: 'FBI' },
-          { name: 'CIRG', value: 'CIRG' },
-          { name: 'CID', value: 'CID' }
+          { name: 'FBI', value: 'FBI' } // Only FBI remains
         ))
     .addStringOption(option =>
       option.setName('location')
@@ -39,12 +37,10 @@ module.exports = {
     const {
       HOST_MASS_ALLOWED_ROLE_ID,
       HOST_MASS_ANNOUNCE_CHANNEL_ID,
-      FBI_DIVISION_ROLE_ID,
-      CIRG_DIVISION_ROLE_ID,
-      CID_DIVISION_ROLE_ID
+      FBI_DIVISION_ROLE_ID
     } = process.env;
 
-    if (!HOST_MASS_ALLOWED_ROLE_ID || !HOST_MASS_ANNOUNCE_CHANNEL_ID || !FBI_DIVISION_ROLE_ID || !CIRG_DIVISION_ROLE_ID || !CID_DIVISION_ROLE_ID) {
+    if (!HOST_MASS_ALLOWED_ROLE_ID || !HOST_MASS_ANNOUNCE_CHANNEL_ID || !FBI_DIVISION_ROLE_ID) {
       console.warn('⚠️ Missing one or more required environment variables for host-mass command.');
       return interaction.reply({ content: '🚫 Server configuration error. Please contact an admin.', ephemeral: true });
     }
@@ -58,7 +54,7 @@ module.exports = {
       });
     }
 
-    const division = interaction.options.getString('division');
+    const division = interaction.options.getString('division'); // Always "FBI"
     const location = interaction.options.getString('location');
     const reason = interaction.options.getString('reason');
     const promotional = interaction.options.getString('promotional');
@@ -71,23 +67,15 @@ module.exports = {
     const dayOfWeek = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    const divisionConfig = {
+    const divisionInfo = {
       FBI: {
         title: 'ㅤㅤㅤㅤ<:FBISeal:1372972550782451874>  FBI Mass Shift  <:FBISeal:1372972550782451874>ㅤㅤㅤㅤ',
         roleId: FBI_DIVISION_ROLE_ID
-      },
-      CIRG: {
-        title: 'ㅤㅤㅤ<:CIRGFBI:1250164136969633842>  CIRG Mass Shift  <:CIRGFBI:1250164136969633842>ㅤㅤㅤ',
-        roleId: CIRG_DIVISION_ROLE_ID
-      },
-      CID: {
-        title: 'ㅤㅤㅤ<:CIDFBI:1250164050172706868>  CID Mass Shift  <:CIDFBI:1250164050172706868>ㅤㅤㅤ',
-        roleId: CID_DIVISION_ROLE_ID
       }
     };
 
-    const divisionInfo = divisionConfig[division];
-    const mentionRole = `<@&${divisionInfo.roleId}>`;
+    const divisionData = divisionInfo[division];
+    const mentionRole = `<@&${divisionData.roleId}>`;
     const blueLine = '<:BlueLine:1372978644770750577>'.repeat(27);
 
     const channel = await client.channels.fetch(HOST_MASS_ANNOUNCE_CHANNEL_ID).catch(() => null);
@@ -99,7 +87,7 @@ module.exports = {
     await interaction.reply({ content: '✅ Mass hosting announcement posted.', ephemeral: true });
 
     const embed = {
-      title: divisionInfo.title,
+      title: divisionData.title,
       description:
         `${blueLine}\n` +
         `The Federal Bureau of Investigation is currently hosting a mass shift operation to enhance coordination and readiness across all active units. Agents are required to report for duty as scheduled and carry out their assignments with full professionalism. This initiative is part of ongoing efforts to maintain peak operational efficiency within the Bureau.\n\n` +
@@ -127,4 +115,3 @@ module.exports = {
     }
   },
 };
-
