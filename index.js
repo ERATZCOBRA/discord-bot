@@ -1,8 +1,8 @@
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, REST, Routes } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
-const express = require('express'); // Added express
+const express = require('express'); // For Replit keep-alive
 
 dotenv.config();
 
@@ -46,7 +46,7 @@ for (const file of eventFiles) {
   }
 }
 
-// Express server to keep Render happy and bot alive
+// Express server to keep bot alive on Replit
 const app = express();
 
 app.get('/', (req, res) => {
@@ -55,11 +55,23 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Express server listening on port ${PORT}`);
+  console.log(`🌐 Express server listening on port ${PORT}`);
 });
 
+// On bot ready: log and optionally deploy slash commands
 client.once('ready', async () => {
-  console.log('✅ Bot is ready!');
+  console.log(`✅ Logged in as ${client.user.tag}`);
+
+  const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+  try {
+    await rest.put(
+      Routes.applicationCommands(client.user.id),
+      { body: commandsArray }
+    );
+    console.log('✅ Slash commands deployed!');
+  } catch (err) {
+    console.error('❌ Error deploying commands:', err);
+  }
 });
 
 client.login(process.env.TOKEN);
