@@ -2,16 +2,29 @@ const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 const express = require('express'); // Added express
+const { Client, GatewayIntentBits } = require('discord.js'); // Make sure this is here if using discord.js v14
 
 dotenv.config();
 
 const client = new Client({
-@@ -44,9 +46,20 @@ for (const file of eventFiles) {
-}
+  intents: [GatewayIntentBits.Guilds] // Add your required intents here
+});
+
+// Your event loading code (just assuming it's like this)
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
+  }
 }
 
-// Bot is ready, but no need to register commands here (since deploy-commands.js does it)
-// Express server to keep Render happy and bot alive
+// ✅ Express server to keep Render alive
 const app = express();
 
 app.get('/', (req, res) => {
@@ -23,9 +36,9 @@ app.listen(PORT, () => {
   console.log(`Express server listening on port ${PORT}`);
 });
 
+// ✅ Start the bot
 client.once('ready', async () => {
-console.log('✅ Bot is ready!');
+  console.log('✅ Bot is ready!');
 });
 
-client.login(process.env.TOKEN);
 client.login(process.env.TOKEN);
