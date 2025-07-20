@@ -18,7 +18,7 @@ module.exports = {
     const suggestion = interaction.options.getString('suggestion');
     const suggestChannelId = process.env.SUGGEST_CHANNEL_ID;
 
-    const channel = await client.channels.fetch(suggestChannelId);
+    const channel = await client.channels.fetch(suggestChannelId).catch(() => null);
     if (!channel) {
       return interaction.reply({ content: '❌ Suggestion channel not found.', ephemeral: true });
     }
@@ -38,11 +38,22 @@ module.exports = {
 
     const message = await channel.send({ embeds: [embed] });
 
-    // Add ✅ and ❌ reactions for voting
-    await message.react('✅');
-    await message.react('❌');
+    // Add custom emoji reactions in order
+    const reactions = [
+      '<:checkfbi:1371103015079247882>',
+      '<:maybe:1395936761150046208>',
+      '<:crossfbi:1371103076424876102>',
+    ];
 
-    // Auto-create thread titled after the suggestion (trimmed)
+    try {
+      for (const emoji of reactions) {
+        await message.react(emoji);
+      }
+    } catch (error) {
+      console.error('Failed to add reactions:', error);
+    }
+
+    // Auto-create thread titled after the suggestion
     await message.startThread({
       name: `Discussion: ${suggestion.slice(0, 40)}${suggestion.length > 40 ? '...' : ''}`,
       autoArchiveDuration: 1440,
