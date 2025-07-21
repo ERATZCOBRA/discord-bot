@@ -11,6 +11,18 @@ module.exports = {
         .setRequired(true)
     )
     .addStringOption(option =>
+      option.setName('division')
+        .setDescription('Select the division of the agent')
+        .setRequired(true)
+        .addChoices(
+          { name: 'Default', value: 'Default' },
+          { name: 'CIRG', value: 'CIRG' },
+          { name: 'CI', value: 'CI' },
+          { name: 'CID', value: 'CID' },
+          { name: 'All', value: 'All' }
+        )
+    )
+    .addStringOption(option =>
       option.setName('duration')
         .setDescription('How long is the permission valid?')
         .setRequired(true)
@@ -39,6 +51,7 @@ module.exports = {
     }
 
     const agent = interaction.options.getUser('agent');
+    const division = interaction.options.getString('division');
     const duration = interaction.options.getString('duration');
     const proof = interaction.options.getAttachment('proof');
 
@@ -48,11 +61,12 @@ module.exports = {
         `**━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━**\n` +
         `Custom outfit permission has been officially granted for the agent within the Federal Bureau of Investigation.\n\n` +
         `This approval allows the agent to wear the designated custom attire in accordance with Bureau guidelines. The privilege is granted based on trust, professionalism, and adherence to uniform standards.\n\n` +
+        `**Division:** ${division}\n` +
         `**Duration:** ${duration}\n` +
         `**Custom Outfit Proof:** [Click to view attachment](${proof.url})\n\n` +
         `**Signed by:** ${interaction.user}`
       )
-      .setColor(0x0000ff) // Blue color
+      .setColor(0x0000ff)
       .setImage(proof.url)
       .setTimestamp();
 
@@ -64,17 +78,14 @@ module.exports = {
       });
     }
 
-    // Send embed with mention to log channel
     await logChannel.send({ content: `${agent}`, embeds: [embed] });
 
-    // Send DM embed to agent
     try {
       await agent.send({ embeds: [embed] });
     } catch (error) {
       console.warn(`Could not send DM to ${agent.tag}: ${error}`);
     }
 
-    // Confirm command use
     await interaction.reply({
       content: '✅ Custom outfit permission granted, logged, and DM sent successfully.',
       ephemeral: true,
