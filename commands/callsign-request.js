@@ -106,9 +106,16 @@ module.exports = {
       components: [row],
     });
 
+    // 🔹 Auto-open thread
+    await message.startThread({
+      name: `Callsign Request - ${requester.username}`,
+      autoArchiveDuration: 1440, // 24 hours
+      reason: 'Callsign request discussion thread',
+    });
+
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.Button,
-      time: 3_600_000,
+      time: 3_600_000, // 1 hour
       filter: i =>
         ['accept', 'deny'].includes(i.customId) &&
         BUTTON_ACCESS_ROLE_IDS.some(roleId => i.member.roles.cache.has(roleId))
