@@ -27,7 +27,7 @@ const UNIFORM_CHOICES = [
 
 const GUN_CHOICES = [
   { name: 'Orsis T 5000', value: 'Orsis T 5000' },
-  { name: 'Glock17 or FN Five Seven', value: 'Glock1 or FN Five Seven' },
+  { name: 'Glock17 or FN Five Seven', value: 'Glock17 or FN Five Seven' },
   { name: 'N/A', value: 'N/A' },
 ];
 
