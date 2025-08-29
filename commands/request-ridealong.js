@@ -65,7 +65,7 @@ module.exports = {
       .setDescription(
         `${BLUE_LINE}\n\n` +
         'I respectfully request approval for a ride-along opportunity to accompany an experienced agent during active duty. This experience will provide valuable insight and hands-on learning to enhance my skills as a probationary agent.\n\n' +
-        `> **PA Agent:** ${user}\n` +
+        `> **Probationary Agent:** ${user}\n` +
         `> **Available Time:** ${availableTime}\n` +
         `> **Ping:** <@&${PING_ROLE_ID}>\n` +
         `> **Status:** ⏳ Pending`
