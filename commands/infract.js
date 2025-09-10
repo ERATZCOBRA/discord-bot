@@ -73,7 +73,7 @@ module.exports = {
     const authorAvatarURL = interaction.user.displayAvatarURL({ dynamic: true, size: 1024 });
     const time = new Date().toLocaleString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    // Calculate timestamp if applicable
+    // Calculate timestamp for appealable date
     let appealableDisplay;
     const now = new Date();
     if (appealableAfter === '1_week') {
@@ -83,7 +83,8 @@ module.exports = {
       const appealDate = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
       appealableDisplay = `<t:${Math.floor(appealDate.getTime() / 1000)}:D>`;
     } else if (appealableAfter === '1_month') {
-      const appealDate = new Date(now.setMonth(now.getMonth() + 1));
+      const appealDate = new Date(now.getTime());
+      appealDate.setMonth(appealDate.getMonth() + 1);
       appealableDisplay = `<t:${Math.floor(appealDate.getTime() / 1000)}:D>`;
     } else {
       appealableDisplay = appealableAfter;
