@@ -106,7 +106,7 @@ module.exports = {
         `> **Punishment:** ${typeOfPunishment}\n` +
         `> **Reason:** ${reason}\n` +
         `> **Proof:** ${proof}\n` +
-        `> **Appealable After:** ${appealableDisplay}\n` +
+        `> **Duration of Appeal:** ${appealableDisplay}\n` +
         `> **Approved by:** ${approvedBy}`
       )
       .setColor(0x0000ff)
