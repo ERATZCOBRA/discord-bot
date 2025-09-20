@@ -52,7 +52,7 @@ module.exports = {
       CID_DIVISION_ROLE_ID
     } = process.env;
 
-    if (!HOST_MASS_ALLOWED_ROLE_ID || !HOST_MASS_ANNOUNCE_CHANNEL_ID || !CID_DIVISION_ROLE_ID) {
+    if (!HOST_CID_MASS_ALLOWED_ROLE_ID || !HOST_CID_MASS_ANNOUNCE_CHANNEL_ID || !CID_DIVISION_ROLE_ID) {
       return message.reply('🚫 Server configuration error. Please contact an admin.');
     }
 
