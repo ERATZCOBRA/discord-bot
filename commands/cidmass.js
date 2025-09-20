@@ -47,8 +47,8 @@ module.exports = {
     if (!message.content.toLowerCase().startsWith('!cidmass')) return;
 
     const {
-      HOST_MASS_ALLOWED_ROLE_ID,
-      HOST_MASS_ANNOUNCE_CHANNEL_ID,
+      HOST_CID_MASS_ALLOWED_ROLE_ID,
+      HOST_CID_MASS_ANNOUNCE_CHANNEL_ID,
       CID_DIVISION_ROLE_ID
     } = process.env;
 
