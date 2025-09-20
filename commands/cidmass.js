@@ -79,12 +79,12 @@ module.exports = {
   // Shared handler for both slash & prefix
   async runMassCommand({ user, member, options, client, reply }) {
     const {
-      HOST_MASS_ALLOWED_ROLE_ID,
-      HOST_MASS_ANNOUNCE_CHANNEL_ID,
+      HOST_CID_MASS_ALLOWED_ROLE_ID,
+      HOST_CID_MASS_ANNOUNCE_CHANNEL_ID,
       CID_DIVISION_ROLE_ID
     } = process.env;
 
-    const allowedRoleIds = HOST_MASS_ALLOWED_ROLE_ID.split(',').map(id => id.trim()).filter(Boolean);
+    const allowedRoleIds = HOST_CID_MASS_ALLOWED_ROLE_ID.split(',').map(id => id.trim()).filter(Boolean);
     const hasPermission = member.roles.cache.some(role => allowedRoleIds.includes(role.id));
     if (!hasPermission) {
       return reply('❌ You do not have permission to use this command.');
@@ -103,7 +103,7 @@ module.exports = {
     const mentionRole = `<@&${CID_DIVISION_ROLE_ID}>`;
     const line = '━'.repeat(40);
 
-    const channel = await client.channels.fetch(HOST_MASS_ANNOUNCE_CHANNEL_ID).catch(() => null);
+    const channel = await client.channels.fetch(HOST_CID_MASS_ANNOUNCE_CHANNEL_ID).catch(() => null);
     if (!channel) {
       return reply('❌ Announcement channel not found. Please contact an admin.');
     }
