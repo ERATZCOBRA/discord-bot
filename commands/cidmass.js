@@ -91,7 +91,13 @@ module.exports = {
       embeds: [embed],
     });
 
-    const reactions = ['✅', '❔', '❌'];
+    // Custom emoji reactions
+    const reactions = [
+      '<:checkfbi:1371103015079247882>',
+      '<:maybe:1395936761150046208>',
+      '<:crossfbi:1371103076424876102>'
+    ];
+
     try {
       for (const emoji of reactions) {
         await message.react(emoji);
