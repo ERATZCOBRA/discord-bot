@@ -7,24 +7,24 @@ const { Client, GatewayIntentBits, Collection, Partials } = require('discord.js'
 // ✅ Load environment variables
 dotenv.config();
 
-// ✅ Initialize client
+// ✅ Initialize Discord client
 const client = new Client({
   intents: [
-    GatewayIntentBits.Guilds, // For slash commands
-    GatewayIntentBits.GuildMessages, // For prefix commands
-    GatewayIntentBits.MessageContent // For reading prefix command messages
+    GatewayIntentBits.Guilds,           // Slash commands
+    GatewayIntentBits.GuildMessages,    // Prefix commands
+    GatewayIntentBits.MessageContent,   // Read message content
   ],
-  partials: [Partials.Channel]
+  partials: [Partials.Channel],
 });
 
 // ✅ Command Collections
-client.commands = new Collection();
-client.prefixCommands = new Collection();
+client.commands = new Collection();       // Slash commands
+client.prefixCommands = new Collection(); // Prefix commands
+client.prefix = process.env.PREFIX || '-'; // Default prefix
 
-// ✅ Define prefix (easy to change)
-client.prefix = process.env.PREFIX || '-';
-
-// ✅ Load Slash Commands
+// ============================
+// 🧠 LOAD SLASH COMMANDS
+// ============================
 const commandsPath = path.join(__dirname, 'commands');
 if (fs.existsSync(commandsPath)) {
   const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -39,7 +39,26 @@ if (fs.existsSync(commandsPath)) {
   }
 }
 
-// ✅ Load Events
+// ============================
+// 🎯 LOAD PREFIX COMMANDS
+// ============================
+const prefixCommandsPath = path.join(__dirname, 'prefixCommands');
+if (fs.existsSync(prefixCommandsPath)) {
+  const prefixFiles = fs.readdirSync(prefixCommandsPath).filter(file => file.endsWith('.js'));
+  for (const file of prefixFiles) {
+    const filePath = path.join(prefixCommandsPath, file);
+    const command = require(filePath);
+    if ('name' in command && 'execute' in command) {
+      client.prefixCommands.set(command.name.toLowerCase(), command);
+    } else {
+      console.warn(`[⚠️] Prefix command at ${filePath} is missing "name" or "execute".`);
+    }
+  }
+}
+
+// ============================
+// ⚡ LOAD EVENTS
+// ============================
 const eventsPath = path.join(__dirname, 'events');
 if (fs.existsSync(eventsPath)) {
   const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
@@ -54,30 +73,38 @@ if (fs.existsSync(eventsPath)) {
   }
 }
 
-// ✅ Prefix Command Handler (e.g. for -tobi)
+// ============================
+// 💬 PREFIX COMMAND HANDLER
+// ============================
 client.on('messageCreate', async message => {
   if (message.author.bot || !message.content.startsWith(client.prefix)) return;
 
   const args = message.content.slice(client.prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
+  const command = client.prefixCommands.get(commandName);
 
-  const commandPath = path.join(__dirname, 'prefixCommands', `${commandName}.js`);
-  if (fs.existsSync(commandPath)) {
-    const command = require(commandPath);
-    try {
-      await command.execute(message, args, client);
-    } catch (err) {
-      console.error(err);
-      message.reply('❌ There was an error executing that command.');
-    }
+  if (!command) return;
+
+  try {
+    await command.execute(message, args, client);
+  } catch (err) {
+    console.error(`❌ Error executing prefix command "${commandName}":`, err);
+    message.reply('⚠️ Something went wrong while executing that command.');
   }
 });
 
-// ✅ Express Server for Hosting (e.g. Render)
+// ============================
+// 🌐 EXPRESS KEEP-ALIVE SERVER
+// ============================
 const app = express();
-app.get('/', (req, res) => res.send('✅ Bot is running!'));
+app.get('/', (req, res) => res.send('✅ Bot is alive and running!'));
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🌐 Express server listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`🌍 Express server running on port ${PORT}`));
 
-// ✅ Login
-client.login(process.env.TOKEN);
+// ============================
+// 🔑 LOGIN BOT
+// ============================
+client.login(process.env.TOKEN).catch(err => {
+  console.error('❌ Failed to login:', err);
+});
+
