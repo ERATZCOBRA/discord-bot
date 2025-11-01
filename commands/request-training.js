@@ -62,14 +62,6 @@ module.exports = {
     ),
 
   async execute(interaction) {
-    // 🔒 Command temporarily disabled
-    return interaction.reply({
-      content: '⚠️ This command is temporarily disabled for maintenance. Please try again later.',
-      ephemeral: true,
-    });
-
-    // ↓↓↓ Everything below will not run until you remove the above lines ↓↓↓
-
     const type = interaction.options.getString('type');
     const availableTime = interaction.options.getString('available-time');
     const user = interaction.user;
